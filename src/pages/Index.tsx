@@ -1,8 +1,12 @@
+
 import React from 'react';
 import Header from '@/components/Header';
 import RotatingBackground from '@/components/RotatingBackground';
 import MemoryGrid from '@/components/MemoryGrid';
+import LoveList from '@/components/LoveList';
 import { Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 const TOTAL_MEMORIES = 100;
 
@@ -39,10 +43,33 @@ const Index = () => {
                 "Every moment spent with you is a moment I treasure forever."
               </p>
             </div>
+            
+            <div className="flex flex-wrap justify-center gap-4 mb-12">
+              <Button asChild className="bg-love-green hover:bg-love-green-dark">
+                <Link to="/about">About Us</Link>
+              </Button>
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark">
+                <Link to="/love-list">What I Love About You</Link>
+              </Button>
+              <Button asChild className="bg-love-green hover:bg-love-green-dark">
+                <Link to="/bucket-list">Our Bucket List</Link>
+              </Button>
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark">
+                <Link to="/playlist">Our Playlist</Link>
+              </Button>
+              <Button asChild className="bg-love-green hover:bg-love-green-dark">
+                <Link to="/countdown">Countdowns</Link>
+              </Button>
+            </div>
           </div>
           
-          {/* Passando o total de memórias para o MemoryGrid */}
+          <h2 className="text-3xl font-bold mb-6 text-center text-gradient">Our Memories</h2>
           <MemoryGrid totalMemories={TOTAL_MEMORIES} />
+          
+          <div className="mt-20 mb-10">
+            <h2 className="text-3xl font-bold mb-8 text-center text-gradient">What I Love About You</h2>
+            <LoveList />
+          </div>
         </div>
       </main>
       

@@ -7,8 +7,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import MemoryPage from "./pages/MemoryPage";
 import NotFound from "./pages/NotFound";
-import MemoryImagePage from './pages/MemoryImagePage'; // Nova página apenas com a imagem
-
+import MemoryImagePage from './pages/MemoryImagePage';
+import AboutPage from './pages/AboutPage';
+import LoveListPage from './pages/LoveListPage';
+import BucketListPage from './pages/BucketListPage';
+import PlaylistPage from './pages/PlaylistPage';
+import CountdownPage from './pages/CountdownPage';
 
 const queryClient = new QueryClient();
 
@@ -21,9 +25,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/memory/:id" element={<MemoryPage />} />
+          <Route path="/memory/image/:id" element={<MemoryImagePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/love-list" element={<LoveListPage />} />
+          <Route path="/bucket-list" element={<BucketListPage />} />
+          <Route path="/playlist" element={<PlaylistPage />} />
+          <Route path="/countdown" element={<CountdownPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
-          <Route path="/memory/image/:id" element={<MemoryImagePage />} /> {/* Página só com a imagem */}
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
