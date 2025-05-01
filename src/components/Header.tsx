@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import AuthButton from '@/components/AuthButton';
 
 interface HeaderProps {
   currentPage?: number;
@@ -20,39 +21,43 @@ const Header: React.FC<HeaderProps> = ({ currentPage, totalPages }) => {
           <span className="font-bold text-xl text-gradient-dark">Eu e Tu, Tatu</span>
         </Link>
         
-        {showNavigation && (
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-love-green/50 hover:border-love-green text-love-green"
-              disabled={currentPage <= 1}
-              asChild
-            >
-              <Link to={`/memory/${currentPage - 1}`}>
-                <ChevronLeft className="h-4 w-4" />
-                <span>Previous</span>
-              </Link>
-            </Button>
-            
-            <span className="text-sm text-muted-foreground">
-              {currentPage} / {totalPages}
-            </span>
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-love-green/50 hover:border-love-green text-love-green"
-              disabled={currentPage >= totalPages}
-              asChild
-            >
-              <Link to={`/memory/${currentPage + 1}`}>
-                <span>Next</span>
-                <ChevronRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        )}
+        <div className="flex items-center gap-4">
+          {showNavigation && (
+            <div className="flex items-center space-x-4">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="border-love-green/50 hover:border-love-green text-love-green"
+                disabled={currentPage <= 1}
+                asChild
+              >
+                <Link to={`/memory/${currentPage - 1}`}>
+                  <ChevronLeft className="h-4 w-4" />
+                  <span>Anterior</span>
+                </Link>
+              </Button>
+              
+              <span className="text-sm text-muted-foreground">
+                {currentPage} / {totalPages}
+              </span>
+              
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="border-love-green/50 hover:border-love-green text-love-green"
+                disabled={currentPage >= totalPages}
+                asChild
+              >
+                <Link to={`/memory/${currentPage + 1}`}>
+                  <span>Próximo</span>
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          )}
+          
+          <AuthButton />
+        </div>
       </div>
     </header>
   );

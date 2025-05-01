@@ -1,10 +1,10 @@
 
 import React from 'react';
 import Header from '@/components/Header';
-import RotatingBackground from '@/components/RotatingBackground';
-import { Heart, Book, List, CheckSquare, Music, Timer, Clock, Image } from 'lucide-react';
+import { Heart, Book, List, CheckSquare, Music, Timer, Clock, Image, Pizza } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 const TOTAL_MEMORIES = 100;
 
@@ -16,12 +16,13 @@ const backgroundImages = [
 ];
 
 const Index = () => {
+  const { signOut } = useAuth();
+  
   return (
     <>
-      {/* {<RotatingBackground images={backgroundImages} />} */}
       <div
         style={{
-          backgroundImage: "url('/images/fundo2.png')", // ajuste o caminho conforme seu projeto
+          backgroundImage: "url('/images/fundo2.png')",
           backgroundSize: '100% 100%',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -79,6 +80,9 @@ const Index = () => {
               <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
                 <Link to="/memories"><Image size={18} /> Memórias</Link>
               </Button>
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
+                <Link to="/foods"><Pizza size={18} /> Comidas</Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -89,6 +93,14 @@ const Index = () => {
           <p className="text-sm text-gray-600">
             Feito com <Heart className="inline-block h-4 w-4 fill-love-orange stroke-none" /> para você
           </p>
+          <Button 
+            variant="link" 
+            size="sm" 
+            onClick={signOut} 
+            className="text-sm text-gray-500 mt-2"
+          >
+            Sair
+          </Button>
         </div>
       </footer>
     </>

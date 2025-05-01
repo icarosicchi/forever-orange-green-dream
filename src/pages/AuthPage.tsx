@@ -1,27 +1,45 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
-import RotatingBackground from '@/components/RotatingBackground';
 import { Heart, Mail, Lock, LogIn, UserPlus } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
-const backgroundImages = [
-  '/images/memory1.jpg',
-  '/images/memory2.jpg',
-  '/images/memory3.jpg'
-];
+const backgroundStyle = {
+  backgroundImage: "url('/images/fundo2.png')",
+  backgroundSize: '100% 100%',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  zIndex: -1,
+  opacity: 0.9,
+};
 
 const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+  const { user } = useAuth();
+  
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      const from = location.state?.from?.pathname || '/';
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, location]);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,21 +54,21 @@ const AuthPage = () => {
       if (error) {
         toast({
           variant: "destructive",
-          title: "Sign Up Error",
+          title: "Erro no cadastro",
           description: error.message,
         });
       } else {
         toast({
-          title: "Success!",
-          description: "Account created successfully. You can now sign in.",
+          title: "Sucesso!",
+          description: "Conta criada com sucesso. Você já pode fazer login.",
         });
       }
     } catch (error) {
       console.error('Error signing up:', error);
       toast({
         variant: "destructive",
-        title: "Unexpected Error",
-        description: "An unexpected error occurred. Please try again.",
+        title: "Erro inesperado",
+        description: "Ocorreu um erro inesperado. Por favor, tente novamente.",
       });
     } finally {
       setLoading(false);
@@ -70,22 +88,25 @@ const AuthPage = () => {
       if (error) {
         toast({
           variant: "destructive",
-          title: "Sign In Error",
+          title: "Erro no login",
           description: error.message,
         });
       } else {
         toast({
-          title: "Welcome back!",
-          description: "You've successfully signed in.",
+          title: "Bem-vindo!",
+          description: "Login realizado com sucesso.",
         });
-        navigate('/');
+        
+        // Redirect to the page they were trying to access or to the home page
+        const from = location.state?.from?.pathname || '/';
+        navigate(from, { replace: true });
       }
     } catch (error) {
       console.error('Error signing in:', error);
       toast({
         variant: "destructive",
-        title: "Unexpected Error",
-        description: "An unexpected error occurred. Please try again.",
+        title: "Erro inesperado",
+        description: "Ocorreu um erro inesperado. Por favor, tente novamente.",
       });
     } finally {
       setLoading(false);
@@ -94,7 +115,7 @@ const AuthPage = () => {
 
   return (
     <>
-      <RotatingBackground images={backgroundImages} />
+      <div style={backgroundStyle} />
       
       <div className="min-h-screen flex items-center justify-center px-4">
         <Card className="w-full max-w-md bg-white/90 backdrop-blur-sm">
@@ -102,17 +123,17 @@ const AuthPage = () => {
             <div className="mx-auto mb-2">
               <Heart className="h-12 w-12 fill-love-orange stroke-love-orange-dark" />
             </div>
-            <CardTitle className="text-3xl font-bold text-gradient">Welcome</CardTitle>
-            <CardDescription>Sign in to access your memories</CardDescription>
+            <CardTitle className="text-3xl font-bold text-gradient">Bem-vindo</CardTitle>
+            <CardDescription>Entre para acessar suas memórias</CardDescription>
           </CardHeader>
           
           <Tabs defaultValue="signin" className="w-full">
             <TabsList className="grid grid-cols-2 mb-4 mx-6">
               <TabsTrigger value="signin" className="data-[state=active]:bg-love-green data-[state=active]:text-white">
-                Sign In
+                Entrar
               </TabsTrigger>
               <TabsTrigger value="signup" className="data-[state=active]:bg-love-orange data-[state=active]:text-white">
-                Sign Up
+                Cadastrar
               </TabsTrigger>
             </TabsList>
             
@@ -137,7 +158,7 @@ const AuthPage = () => {
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
-                        placeholder="Password"
+                        placeholder="Senha"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -154,9 +175,9 @@ const AuthPage = () => {
                     className="w-full bg-love-green hover:bg-love-green-dark"
                     disabled={loading}
                   >
-                    {loading ? 'Signing in...' : (
+                    {loading ? 'Entrando...' : (
                       <>
-                        <LogIn className="mr-2 h-4 w-4" /> Sign In
+                        <LogIn className="mr-2 h-4 w-4" /> Entrar
                       </>
                     )}
                   </Button>
@@ -185,7 +206,7 @@ const AuthPage = () => {
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
-                        placeholder="Password"
+                        placeholder="Senha"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -202,9 +223,9 @@ const AuthPage = () => {
                     className="w-full bg-love-orange hover:bg-love-orange-dark"
                     disabled={loading}
                   >
-                    {loading ? 'Signing up...' : (
+                    {loading ? 'Cadastrando...' : (
                       <>
-                        <UserPlus className="mr-2 h-4 w-4" /> Sign Up
+                        <UserPlus className="mr-2 h-4 w-4" /> Cadastrar
                       </>
                     )}
                   </Button>
@@ -212,12 +233,6 @@ const AuthPage = () => {
               </form>
             </TabsContent>
           </Tabs>
-          
-          <div className="p-6 text-center text-sm">
-            <a href="/" className="text-love-green-dark hover:underline">
-              Return to Home
-            </a>
-          </div>
         </Card>
       </div>
     </>
