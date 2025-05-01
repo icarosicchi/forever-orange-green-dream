@@ -73,8 +73,12 @@
   .text-gradient {
     @apply bg-gradient-to-r from-love-green to-love-orange bg-clip-text text-transparent;
   }
-  
+
+  .text-gradient-dark {
+    @apply bg-gradient-to-r from-love-green-dark to-love-orange-dark bg-clip-text text-transparent;
+  }
+
   .bg-love-gradient {
-    @apply bg-gradient-to-br from-love-green-light via-white to-love-orange-light;
+    @apply bg-gradient-to-br from-love-orange-light via-white to-love-green-light ;
   }
 }

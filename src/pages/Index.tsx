@@ -31,7 +31,7 @@ const Index = () => {
           width: '100vw',
           height: '100vh',
           zIndex: -1,
-          opacity: 0.85,
+          opacity: 0.9,
         }}
       />
       <Header totalPages={TOTAL_MEMORIES} />
@@ -43,7 +43,7 @@ const Index = () => {
               <Heart className="h-16 w-16 fill-love-orange stroke-love-orange-dark" />
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold mb-5 text-gradient">
+            <h1 className="text-4xl md:text-5xl font-bold mb-5 text-gradient-dark">
               Nossa Linda História
             </h1>
             
@@ -77,7 +77,7 @@ const Index = () => {
                 <Link to="/timeline"><Clock size={18} /> Linha do Tempo</Link>
               </Button>
               <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
-                <Link to="/memory/1"><Image size={18} /> Memórias</Link>
+                <Link to="/memories"><Image size={18} /> Memórias</Link>
               </Button>
             </div>
           </div>

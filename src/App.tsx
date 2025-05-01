@@ -8,7 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import MemoryPage from "./pages/MemoryPage";
 import NotFound from "./pages/NotFound";
-import MemoryImagePage from './pages/MemoryImagePage';
+import Memories from './pages/Memories';
 import AboutPage from './pages/AboutPage';
 import LoveListPage from './pages/LoveListPage';
 import BucketListPage from './pages/BucketListPage';
@@ -29,7 +29,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/memory/:id" element={<MemoryPage />} />
-            <Route path="/memory/image/:id" element={<MemoryImagePage />} />
+            <Route path="/memories" element={<Memories />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/love-list" element={<LoveListPage />} />
             <Route path="/bucket-list" element={<BucketListPage />} />

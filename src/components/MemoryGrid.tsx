@@ -17,8 +17,8 @@ const MemoryGrid: React.FC<MemoryGridProps> = ({ totalMemories }) => {
             key={memoryId}
             memoryId={memoryId}
             imageUrl={`/images/memory${memoryId}.jpg`}
-            title={`Memory #${memoryId}`}
-            content={getMemoryText(memoryId)}
+            title={`Memória #${memoryId}`}
+            content={''}
           />
         );
       })}

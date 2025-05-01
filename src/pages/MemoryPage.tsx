@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import MemoryCard from '@/components/MemoryCard';
 import { getMemoryText } from '@/utils/memoryTexts';
@@ -23,6 +23,13 @@ const MemoryPage = () => {
       <Header currentPage={memoryId} totalPages={TOTAL_MEMORIES} />
 
       <main className="pt-24 pb-16 container mx-auto px-4">
+        {/* Link para a página de grid */}
+        <Link
+          to="/memories"
+          className="mt-2 inline-flex items-center px-4 py-1 bg-love-green-dark text-white rounded hover:bg-love-green transition"
+        >
+          ←
+        </Link>
         <div className="max-w-3xl mx-auto">
           <MemoryCard
             memoryId={memoryId}
