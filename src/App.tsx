@@ -13,6 +13,7 @@ import LoveListPage from './pages/LoveListPage';
 import BucketListPage from './pages/BucketListPage';
 import PlaylistPage from './pages/PlaylistPage';
 import CountdownPage from './pages/CountdownPage';
+import TimelinePage from './pages/TimelinePage';
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/bucket-list" element={<BucketListPage />} />
           <Route path="/playlist" element={<PlaylistPage />} />
           <Route path="/countdown" element={<CountdownPage />} />
+          <Route path="/timeline" element={<TimelinePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

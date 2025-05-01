@@ -2,8 +2,6 @@
 import React from 'react';
 import Header from '@/components/Header';
 import RotatingBackground from '@/components/RotatingBackground';
-import MemoryGrid from '@/components/MemoryGrid';
-import LoveList from '@/components/LoveList';
 import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -23,9 +21,9 @@ const Index = () => {
       <RotatingBackground images={backgroundImages} />
       <Header totalPages={TOTAL_MEMORIES} />
       
-      <main className="pt-24 pb-16">
+      <main className="min-h-screen flex items-center justify-center">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-12">
+          <div className="max-w-3xl mx-auto text-center">
             <div className="inline-block animate-float mb-6">
               <Heart className="h-16 w-16 fill-love-orange stroke-love-orange-dark" />
             </div>
@@ -60,15 +58,10 @@ const Index = () => {
               <Button asChild className="bg-love-green hover:bg-love-green-dark">
                 <Link to="/countdown">Countdowns</Link>
               </Button>
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark">
+                <Link to="/timeline">Our Timeline</Link>
+              </Button>
             </div>
-          </div>
-          
-          <h2 className="text-3xl font-bold mb-6 text-center text-gradient">Our Memories</h2>
-          <MemoryGrid totalMemories={TOTAL_MEMORIES} />
-          
-          <div className="mt-20 mb-10">
-            <h2 className="text-3xl font-bold mb-8 text-center text-gradient">What I Love About You</h2>
-            <LoveList />
           </div>
         </div>
       </main>
