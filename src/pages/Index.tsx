@@ -2,7 +2,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import RotatingBackground from '@/components/RotatingBackground';
-import { Heart, Book, List, CheckSquare, Music, Timer, Timeline, Image } from 'lucide-react';
+import { Heart, Book, List, CheckSquare, Music, Timer, Clock, Image } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
@@ -59,7 +59,7 @@ const Index = () => {
                 <Link to="/countdown"><Timer size={18} /> Countdowns</Link>
               </Button>
               <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
-                <Link to="/timeline"><Timeline size={18} /> Timeline</Link>
+                <Link to="/timeline"><Clock size={18} /> Timeline</Link>
               </Button>
               <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
                 <Link to="/memory/1"><Image size={18} /> Memories</Link>
