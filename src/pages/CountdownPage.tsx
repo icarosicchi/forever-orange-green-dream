@@ -13,26 +13,26 @@ const countdownEvents: CountdownEvent[] = [
   {
     id: 1, 
     title: "Nosso Próximo Mesversário",
-    date: "2025-05-20", // Example date - replace with your actual date
+    date: "2025-05-21", // Example date - replace with your actual date
     description: "Porque não basta comemorar os anos, hehe"
   },
   {
     id: 2, 
     title: "Próxima Viagem para o Rio",
-    date: "2026-02-14", // Example date - replace with your actual date
+    date: "2026-02-15", // Example date - replace with your actual date
     description: "Ansiosoooo, nossa viagem anual!!"
   },
   {
     id: 3, 
     title: "Seu aniversário",
-    date: "2025-05-13", // Example date - replace with your actual date
+    date: "2025-05-14", // Example date - replace with your actual date
     description: "Simplesmente o dia oficial da mozinha!"
   },
   // Novo evento personalizado para o casamento
   {
     id: 4,
     title: "Nosso Casamento",
-    date: "?",  // Deixe a data como "?" por enquanto
+    date: "??",  // Deixe a data como "?" por enquanto
     description: "O dia mais especial das nossas vidas... Detalhes em breve!" // Mensagem genérica
   }
 ];
@@ -53,7 +53,7 @@ const calculateTimeLeft = (targetDate: string): TimeLeft => {
   }
   
   return {
-    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    days: Math.floor(difference / (1000 * 60 * 60 * 24))-1,
     hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
     minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
     seconds: Math.floor((difference % (1000 * 60)) / 1000)
@@ -136,7 +136,7 @@ const CountdownPage: React.FC = () => {
                   </div>
                   
                   <div className="mt-4 text-center text-sm">
-                    <span className="text-love-orange">Target date: </span>
+                    <span className="text-love-orange">Data: </span>
                     {event.date === "?" ? "Em breve..." : new Date(event.date).toLocaleDateString()}
                   </div>
                 </CardContent>
