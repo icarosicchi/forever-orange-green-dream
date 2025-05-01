@@ -11,7 +11,7 @@ const AboutPage: React.FC = () => {
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-10 text-center text-gradient">
-            Our Story
+            Nossa História
           </h1>
           
           <div className="love-card mb-12">
@@ -25,7 +25,7 @@ const AboutPage: React.FC = () => {
               </div>
               
               <div className="w-full md:w-1/2">
-                <h2 className="text-2xl font-bold mb-4 text-love-green">How We Met</h2>
+                <h2 className="text-2xl font-bold mb-4 text-love-green">Como nos conhecemos</h2>
                 <p className="mb-4 text-foreground/90">
                   Our story began on a warm summer evening at a friend's party. Neither of us expected 
                   to meet someone special that night, but fate had other plans. We talked for hours, 
@@ -40,7 +40,7 @@ const AboutPage: React.FC = () => {
           </div>
           
           <div className="love-card mb-12">
-            <h2 className="text-2xl font-bold mb-6 text-love-orange text-center">Our Favorite Things</h2>
+            <h2 className="text-2xl font-bold mb-6 text-love-orange text-center">Nossas Coisas Favoritas</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex items-start gap-4">
@@ -98,7 +98,7 @@ const AboutPage: React.FC = () => {
           </div>
           
           <div className="love-card">
-            <h2 className="text-2xl font-bold mb-6 text-love-green text-center">Fun Facts About Us</h2>
+            <h2 className="text-2xl font-bold mb-6 text-love-green text-center">Fatos Curiosos Sobre Nós</h2>
             
             <ul className="space-y-4">
               <li className="flex items-start gap-3">

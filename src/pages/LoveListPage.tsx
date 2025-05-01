@@ -63,11 +63,11 @@ const LoveListPage: React.FC = () => {
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center text-gradient">
-            What I Love About You
+            O Que Amo em Você
           </h1>
           
           <p className="text-xl text-center mb-10 text-foreground/80">
-            All the reasons why my heart beats for you
+            Algumas das razões pelas quais meu coração bate por você
           </p>
           
           <div className="flex flex-wrap justify-center gap-2 mb-12">
@@ -105,7 +105,7 @@ const LoveListPage: React.FC = () => {
           
           <div className="mt-12 text-center">
             <p className="text-love-green-dark italic">
-              And countless more reasons that I discover each day...
+              E muito mais razões que eu descubro todo dia!
             </p>
           </div>
         </div>

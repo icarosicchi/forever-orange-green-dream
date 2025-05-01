@@ -71,11 +71,11 @@ const BucketListPage: React.FC = () => {
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center text-gradient">
-            Our Bucket List
+            Nossos Sonhos e Metas
           </h1>
           
           <p className="text-xl text-center mb-6 text-foreground/80">
-            Adventures we want to experience together
+            Aventuras que queremos compartilhar juntos!
           </p>
           
           <div className="love-card mb-12">

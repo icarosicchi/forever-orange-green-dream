@@ -10,11 +10,11 @@ const TimelinePage: React.FC = () => {
       
       <main className="container mx-auto px-4 pt-24 pb-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center text-gradient">
-          Our Timeline
+          Nossa Linha do Tempo
         </h1>
         
         <p className="text-xl mb-12 text-center text-foreground/80 max-w-2xl mx-auto">
-          A journey through all the special moments we've shared together.
+          Uma jornada por diversos momentos especiais que vivemos
         </p>
         
         <Timeline />
