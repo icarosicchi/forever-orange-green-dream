@@ -2,7 +2,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import RotatingBackground from '@/components/RotatingBackground';
-import { Heart } from 'lucide-react';
+import { Heart, Book, List, CheckSquare, Music, Timer, Timeline, Image } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
@@ -42,24 +42,27 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              <Button asChild className="bg-love-green hover:bg-love-green-dark">
-                <Link to="/about">About Us</Link>
+            <div className="flex flex-wrap justify-center gap-3 mb-12">
+              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
+                <Link to="/about"><Book size={18} /> About Us</Link>
               </Button>
-              <Button asChild className="bg-love-orange hover:bg-love-orange-dark">
-                <Link to="/love-list">What I Love About You</Link>
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
+                <Link to="/love-list"><Heart size={18} /> What I Love</Link>
               </Button>
-              <Button asChild className="bg-love-green hover:bg-love-green-dark">
-                <Link to="/bucket-list">Our Bucket List</Link>
+              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
+                <Link to="/bucket-list"><CheckSquare size={18} /> Bucket List</Link>
               </Button>
-              <Button asChild className="bg-love-orange hover:bg-love-orange-dark">
-                <Link to="/playlist">Our Playlist</Link>
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
+                <Link to="/playlist"><Music size={18} /> Playlist</Link>
               </Button>
-              <Button asChild className="bg-love-green hover:bg-love-green-dark">
-                <Link to="/countdown">Countdowns</Link>
+              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
+                <Link to="/countdown"><Timer size={18} /> Countdowns</Link>
               </Button>
-              <Button asChild className="bg-love-orange hover:bg-love-orange-dark">
-                <Link to="/timeline">Our Timeline</Link>
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
+                <Link to="/timeline"><Timeline size={18} /> Timeline</Link>
+              </Button>
+              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
+                <Link to="/memory/1"><Image size={18} /> Memories</Link>
               </Button>
             </div>
           </div>

@@ -1,5 +1,7 @@
+
 import React from 'react';
 import MemoryCard from '@/components/MemoryCard';
+import { getMemoryText } from '@/utils/memoryTexts';
 
 interface MemoryGridProps {
   totalMemories: number;
@@ -9,14 +11,14 @@ const MemoryGrid: React.FC<MemoryGridProps> = ({ totalMemories }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {Array.from({ length: totalMemories }, (_, index) => {
-        const memoryId = index + 1; // Definindo o memoryId
+        const memoryId = index + 1;
         return (
           <MemoryCard
             key={memoryId}
-            memoryId={memoryId} // Passando o memoryId para o MemoryCard
-            imageUrl={`/images/memory${memoryId}.jpg`} // Caminho das imagens locais
+            memoryId={memoryId}
+            imageUrl={`/images/memory${memoryId}.jpg`}
             title={`Memory #${memoryId}`}
-            content={`This is memory #${memoryId}. Customize this content as needed.`}
+            content={getMemoryText(memoryId)}
           />
         );
       })}

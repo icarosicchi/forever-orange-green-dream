@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import MemoryCard from '@/components/MemoryCard';
+import { getMemoryText } from '@/utils/memoryTexts';
 
 const TOTAL_MEMORIES = 100;
 
@@ -14,6 +16,8 @@ const MemoryPage = () => {
     return <Navigate to="/" />;
   }
 
+  const memoryContent = getMemoryText(memoryId);
+
   return (
     <div className="min-h-screen bg-love-gradient">
       <Header currentPage={memoryId} totalPages={TOTAL_MEMORIES} />
@@ -21,10 +25,10 @@ const MemoryPage = () => {
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <MemoryCard
-            memoryId={memoryId}  // Passando o memoryId para o MemoryCard
+            memoryId={memoryId}
             imageUrl={`/images/memory${memoryId}.jpg`} 
             title={`Memory #${memoryId}`}
-            content="This is where you'll write your personal message to your girlfriend. You can customize each of these 100 pages with your own text and images."
+            content={memoryContent}
           />
 
           <div className="mt-8 text-center">
