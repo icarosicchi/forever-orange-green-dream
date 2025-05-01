@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, totalPages }) => {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2 text-love-green hover:text-love-green-dark transition-colors">
           <Heart className="h-5 w-5 fill-love-orange stroke-love-orange" />
-          <span className="font-bold text-xl">Our Love Story</span>
+          <span className="font-bold text-xl">Eu e Tu, Tatu</span>
         </Link>
         
         {showNavigation && (

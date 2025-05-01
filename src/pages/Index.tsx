@@ -28,7 +28,7 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
-              Our Beautiful Love Story
+              Nossa Linda História
             </h1>
             
             <p className="text-xl mb-8 text-foreground/80">

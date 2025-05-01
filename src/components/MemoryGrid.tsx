@@ -12,7 +12,7 @@ const MemoryGrid: React.FC<MemoryGridProps> = ({ totalMemories }) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gradient">Explore Our Memories</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center text-gradient">Veja Nossos Momentos e Memórias</h2>
       
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {memories.map((memoryId) => (
