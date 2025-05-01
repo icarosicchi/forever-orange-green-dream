@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import MemoryPage from "./pages/MemoryPage";
 import NotFound from "./pages/NotFound";
+import MemoryImagePage from './pages/MemoryImagePage'; // Nova página apenas com a imagem
+
 
 const queryClient = new QueryClient();
 
@@ -21,6 +23,7 @@ const App = () => (
           <Route path="/memory/:id" element={<MemoryPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
+          <Route path="/memory/image/:id" element={<MemoryImagePage />} /> {/* Página só com a imagem */}
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

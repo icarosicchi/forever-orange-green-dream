@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import RotatingBackground from '@/components/RotatingBackground';
@@ -7,11 +6,11 @@ import { Heart } from 'lucide-react';
 
 const TOTAL_MEMORIES = 100;
 
-// Sample background images - you can replace these with your own
+// Caminho das imagens armazenadas localmente na pasta public/images/
 const backgroundImages = [
-  'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07',
-  'https://images.unsplash.com/photo-1500673922987-e212871fec22',
-  'https://images.unsplash.com/photo-1582562124811-c09040d0a901'
+  '/images/memory1.jpg',
+  '/images/memory2.jpg',
+  '/images/memory3.jpg'
 ];
 
 const Index = () => {
@@ -42,6 +41,7 @@ const Index = () => {
             </div>
           </div>
           
+          {/* Passando o total de memórias para o MemoryGrid */}
           <MemoryGrid totalMemories={TOTAL_MEMORIES} />
         </div>
       </main>
