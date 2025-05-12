@@ -54,7 +54,7 @@ const Index = () => {
             
             <div className="love-card mb-6">
               <p className="italic text-lg text-gray-700">
-                "Eu te amo, e isso basta para me fazer feliz."
+                "Que não seja imortal, posto que é chama. Mas que seja infinito enquanto dure"
               </p>
             </div>
             
@@ -69,18 +69,15 @@ const Index = () => {
                 <Link to="/bucket-list"><CheckSquare size={18} /> Metas e Sonhos</Link>
               </Button>
               <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
-                <Link to="/playlist"><Music size={18} /> Playlist</Link>
-              </Button>
-              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
                 <Link to="/countdown"><Timer size={18} /> Contagens Regressivas</Link>
               </Button>
-              <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
+              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
                 <Link to="/timeline"><Clock size={18} /> Linha do Tempo</Link>
               </Button>
-              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
+              <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
                 <Link to="/memories"><Image size={18} /> Memórias</Link>
               </Button>
-              <Button asChild className="bg-love-orange hover:bg-love-orange-dark flex items-center gap-2">
+              <Button asChild className="bg-love-green hover:bg-love-green-dark flex items-center gap-2">
                 <Link to="/foods"><Pizza size={18} /> Comidas</Link>
               </Button>
             </div>

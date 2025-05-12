@@ -6,7 +6,7 @@ import Timeline from '@/components/Timeline';
 const TimelinePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Header totalPages={100} />
+      <Header totalPages={130} />
       
       <main className="container mx-auto px-4 pt-24 pb-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center text-gradient">

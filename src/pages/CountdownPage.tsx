@@ -32,7 +32,7 @@ const countdownEvents: CountdownEvent[] = [
   {
     id: 4,
     title: "Nosso Casamento",
-    date: "??",  // Deixe a data como "?" por enquanto
+    date: "?",  // Deixe a data como "?" por enquanto
     description: "O dia mais especial das nossas vidas... Detalhes em breve!" // Mensagem genérica
   }
 ];
@@ -85,7 +85,7 @@ const CountdownPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-love-gradient">
-      <Header totalPages={100} />
+      <Header totalPages={130} />
       
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">

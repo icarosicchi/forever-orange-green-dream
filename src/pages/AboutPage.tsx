@@ -6,7 +6,7 @@ import { Heart } from 'lucide-react';
 const AboutPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-love-gradient">
-      <Header totalPages={100} />
+      <Header totalPages={130} />
       
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
@@ -27,13 +27,13 @@ const AboutPage: React.FC = () => {
               <div className="w-full md:w-1/2">
                 <h2 className="text-2xl font-bold mb-4 text-love-green">Como nos conhecemos</h2>
                 <p className="mb-4 text-foreground/90">
-                  Our story began on a warm summer evening at a friend's party. Neither of us expected 
-                  to meet someone special that night, but fate had other plans. We talked for hours, 
-                  laughing and discovering how much we had in common.
+                  Nos conhecemos graças ao vídeo sagrado do Corey bêbado, que eu estava muito curioso para ver, e
+                  ele me disse que estava com você. Então tomei coragem e mandei mensagem para você falando que um
+                  passarinho me contou...
                 </p>
                 <p className="text-foreground/90">
-                  Since that night, our lives have been intertwined in the most beautiful way, creating 
-                  a tapestry of shared moments, adventures, and deep love.
+                  E desde aquele momento começamos a conversar muito, e eu fui pra São Paulo conhecer o Beco e 
+                  principalmente TE VER (apesar de você não acreditar). E daí pra frente foi só felicidade!!!
                 </p>
               </div>
             </div>
@@ -48,10 +48,10 @@ const AboutPage: React.FC = () => {
                   <Heart className="h-6 w-6 fill-love-green stroke-love-green-dark" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">Our Songs</h3>
+                  <h3 className="font-bold mb-2">Nossas Músicas</h3>
                   <p className="text-foreground/90">
-                    "Perfect" by Ed Sheeran<br />
-                    "Can't Help Falling in Love" by Elvis Presley
+                    Já foi "Home" por um tempo<br />
+                    Mas a mais clássica é "Velha Infância"
                   </p>
                 </div>
               </div>
@@ -61,10 +61,10 @@ const AboutPage: React.FC = () => {
                   <Heart className="h-6 w-6 fill-love-green stroke-love-green-dark" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">Our Places</h3>
+                  <h3 className="font-bold mb-2">Nossos Lugares</h3>
                   <p className="text-foreground/90">
-                    The beach where we had our first date<br />
-                    The hidden café downtown
+                    O abraço um do outro hehe<br />
+                    E o Rio de Janeirooooo
                   </p>
                 </div>
               </div>
@@ -74,10 +74,11 @@ const AboutPage: React.FC = () => {
                   <Heart className="h-6 w-6 fill-love-green stroke-love-green-dark" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">Our Movies</h3>
+                  <h3 className="font-bold mb-2">Nossos filmes</h3>
                   <p className="text-foreground/90">
-                    "The Notebook"<br />
-                    "La La Land"
+                    Meu: "Inception"<br />
+                    Seu: "Little Womem"<br />
+                    Nosso: "La La Land" sepa kkkkk
                   </p>
                 </div>
               </div>
@@ -87,10 +88,12 @@ const AboutPage: React.FC = () => {
                   <Heart className="h-6 w-6 fill-love-green stroke-love-green-dark" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">Our Foods</h3>
+                  <h3 className="font-bold mb-2">Nossas comidas</h3>
                   <p className="text-foreground/90">
-                    Italian pasta at Luigi's<br />
-                    Ice cream on hot summer days
+                    TODASSSSS UHUUUUUUUUU<br />
+                    Repetimos bastante o China in Box<br />
+                    Tinha o Poke do Rio<br />
+                    Japoneses e carnes no geral hehe
                   </p>
                 </div>
               </div>
@@ -104,28 +107,28 @@ const AboutPage: React.FC = () => {
               <li className="flex items-start gap-3">
                 <div className="text-lg">💫</div>
                 <p className="text-foreground/90">
-                  We both ordered the same unusual drink at our first meeting - coconut latte with cinnamon!
+                  O fato mais bizarro de todos é você ser prima de 5º grau da minha prima (Grande Sertãozinho!!!)
                 </p>
               </li>
               
               <li className="flex items-start gap-3">
                 <div className="text-lg">💫</div>
                 <p className="text-foreground/90">
-                  We discovered we were both born in the same hospital, but 2 years apart.
+                  Nós dois somos palmeirenses e sempre foi assim (Confia!)
                 </p>
               </li>
               
               <li className="flex items-start gap-3">
                 <div className="text-lg">💫</div>
                 <p className="text-foreground/90">
-                  Our first trip together was a spontaneous road trip with no destination - we ended up 300 miles away!
+                  Meu aniversário é um sanduichinho entre você e sua irmã. 1 mês e 1 dia de diferença entre cada
                 </p>
               </li>
               
               <li className="flex items-start gap-3">
                 <div className="text-lg">💫</div>
                 <p className="text-foreground/90">
-                  We both had the same childhood dream of opening a bookstore café.
+                  Nós dois fazemos o mesmo curso hehe, e somos esquisitinhos iguais (dois doidinhos, autistinhas e queridos)
                 </p>
               </li>
             </ul>

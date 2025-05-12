@@ -12,7 +12,6 @@ import Memories from './pages/Memories';
 import AboutPage from './pages/AboutPage';
 import LoveListPage from './pages/LoveListPage';
 import BucketListPage from './pages/BucketListPage';
-import PlaylistPage from './pages/PlaylistPage';
 import CountdownPage from './pages/CountdownPage';
 import TimelinePage from './pages/TimelinePage';
 import AuthPage from './pages/AuthPage';
@@ -76,11 +75,6 @@ const App = () => (
             <Route path="/bucket-list" element={
               <ProtectedRoute>
                 <BucketListPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/playlist" element={
-              <ProtectedRoute>
-                <PlaylistPage />
               </ProtectedRoute>
             } />
             <Route path="/countdown" element={
