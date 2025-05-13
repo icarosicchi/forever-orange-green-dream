@@ -15,36 +15,78 @@ interface TimelineEvent {
 const timelineEvents: TimelineEvent[] = [
   {
     id: 1,
-    date: '2023-01-15',
-    title: 'First Meeting',
-    description: 'The day our paths crossed for the first time.',
-    imageUrl: '/images/memory1.jpg'
+    date: '2023-12-03',
+    title: 'Primeira Conversa',
+    description: 'Obrigado Corey bêbado. Não sei como você me suportou akakakka',
+    imageUrl: '/images/print_comeco.jpg'
   },
   {
     id: 2,
-    date: '2023-02-14',
-    title: 'First Valentine\'s Day',
-    description: 'Our first celebration of love together.',
-    imageUrl: '/images/memory2.jpg'
+    date: '2021-12-10',
+    title: 'Nossa primeiro grande bate-papo',
+    description: 'Conversamos muuuuuito, juro por tudo que me apaixonei nesse momento',
+    imageUrl: '/images/alianca.jpg'
   },
   {
     id: 3,
-    date: '2023-06-20',
-    title: 'Summer Trip',
-    description: 'That amazing weekend getaway by the beach.',
-    imageUrl: '/images/memory3.jpg'
+    date: '2021-12-17',
+    title: 'Primeira vez que nos vimos',
+    description: 'Eu fui conhecer VOCÊ, mas você é bobinha de mais pra acreditar',
+    imageUrl: '/images/memory116.jpg'
   },
   {
     id: 4,
-    date: '2023-09-30',
-    title: 'Moving In Together',
-    description: 'The day we started sharing our lives under one roof.'
+    date: '2021-12-19',
+    title: 'Primeiro Encontrooo',
+    description: 'Saímos num date pela primeira vezzzzz. Foi simplesmente sensacional, tudo que rolou hehe',
+    imageUrl: '/images/memory117.jpg'
   },
   {
     id: 5,
-    date: '2023-12-25',
-    title: 'First Christmas',
-    description: 'Sharing the holiday magic together for the first time.'
+    date: '2022-02-14',
+    title: 'Reencontro depois do "webnamoro"',
+    description: 'Foi tão bom te ver. E foi a primeira vez...'
+  },
+  {
+    id: 6,
+    date: '2022-03-20',
+    title: 'Pedido de namorooooo',
+    description: 'Melhor coisa que já fiz na minha vida!!!!!!',
+    imageUrl: '/images/namoro.jpg'
+  },
+  {
+    id: 7,
+    date: '2022-05-13',
+    title: 'Seu niverrrr',
+    description: 'Conheci grande parte da sua família, mas eles não sabiam quem eu era',
+    imageUrl: '/images/memory129.jpg'
+  },
+  {
+    id: 8,
+    date: '2023-01-18',
+    title: 'Primeira vez em Juquehy',
+    description: 'Finalmente conheci sua prainhaaaa'
+  },
+  {
+    id: 9,
+    date: '2024-02-14',
+    title: 'Nossa primeira viagem pro Riooooo',
+    description: 'Eu e tu doidinhos indo ver qualyfing hehe, mas foi incrível!!!',
+    imageUrl: '/images/memory50.jpg'
+  },
+  {
+    id: 11,
+    date: '2024-12-31',
+    title: 'Nosso primeiro ano novo juntos',
+    description: 'Ameeeeeiiii, eu, tu e os fogos de Juquehy',
+    imageUrl: '/images/memory15.jpg'
+  },
+  {
+    id: 11,
+    date: '2025-02-18',
+    title: 'Nossa segunda viagem pro Riooooo',
+    description: 'Foi ótimo também, pena que o João e sua febre não colaboraram',
+    imageUrl: '/images/memory101.jpg'
   }
 ];
 

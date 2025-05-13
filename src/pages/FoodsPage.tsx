@@ -1,83 +1,55 @@
-
+// src/pages/FoodsPage.tsx
 import React from 'react';
 import Header from '@/components/Header';
-import { Card, CardContent } from '@/components/ui/card';
-import { Pizza, Sandwich, Coffee, IceCream } from 'lucide-react';
 
-const TOTAL_PAGES = 100;
+const TOTAL_PAGES = 130;
 
-const foods = [
-  {
-    id: 1,
-    name: "Pizza de calabresa",
-    icon: <Pizza className="h-10 w-10 text-love-orange" />,
-    description: "Nossa pizza favorita, que pedimos sempre no nosso restaurante italiano favorito."
-  },
-  {
-    id: 2,
-    name: "Hambúrguer artesanal",
-    icon: <Sandwich className="h-10 w-10 text-love-orange" />,
-    description: "Aquele hambúrguer que experimentamos no nosso primeiro encontro."
-  },
-  {
-    id: 3,
-    name: "Café da manhã especial",
-    icon: <Coffee className="h-10 w-10 text-love-orange" />,
-    description: "O café da manhã que preparamos um para o outro nos finais de semana."
-  },
-  {
-    id: 4,
-    name: "Sorvete de pistache",
-    icon: <IceCream className="h-10 w-10 text-love-orange" />,
-    description: "Nosso sabor de sorvete favorito para os dias quentes de verão."
-  },
-  {
-    id: 5,
-    name: "Pizza de calabresa",
-    icon: <Pizza className="h-10 w-10 text-love-orange" />,
-    description: "Nossa pizza favorita, que pedimos sempre no nosso restaurante italiano favorito."
-  },
-  {
-    id: 6,
-    name: "Hambúrguer artesanal",
-    icon: <Sandwich className="h-10 w-10 text-love-orange" />,
-    description: "Aquele hambúrguer que experimentamos no nosso primeiro encontro."
-  },
-  {
-    id: 7,
-    name: "Café da manhã especial",
-    icon: <Coffee className="h-10 w-10 text-love-orange" />,
-    description: "O café da manhã que preparamos um para o outro nos finais de semana."
-  },
-  {
-    id: 8,
-    name: "Sorvete de pistache",
-    icon: <IceCream className="h-10 w-10 text-love-orange" />,
-    description: "Nosso sabor de sorvete favorito para os dias quentes de verão."
-  }
+// IDs das fotos que você quer exibir
+const photoIds = [
+  8, 22, 27, 32, 38, 39,
+  59, 60, 61, 64, 65, 68,
+  75, 76, 80, 81, 85, 99,
+  100, 102, 108
 ];
 
 const FoodsPage = () => {
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>, id: number) => {
+    const img = e.currentTarget;
+    // Se ainda não tentou a versão normal (sem underscore), tenta agora
+    if (!img.dataset.triedNormal) {
+      img.dataset.triedNormal = 'true';
+      img.src = `/images/memory${id}.jpg`;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-love-gradient">
       <Header totalPages={TOTAL_PAGES} />
 
       <main className="pt-24 pb-16 container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gradient">
+        <h1 className="text-3xl font-bold mb-4 text-center text-gradient">
           Nossas Comidas Favoritas
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {foods.map((food) => (
-            <Card key={food.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 flex flex-col items-center">
-                <div className="mb-4 bg-love-green-light p-3 rounded-full">
-                  {food.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{food.name}</h3>
-                <p className="text-center text-muted-foreground">{food.description}</p>
-              </CardContent>
-            </Card>
+        <p className="mb-8 text-center text-lg text-muted-foreground">
+          Aqui estão algumas das memórias registradas em fotos dos nossos momentos mais especiais juntos.
+        </p>
+
+        {/* flex-wrap gera um grid irregular, sem colunas fixas */}
+        <div className="flex flex-wrap justify-center gap-6">
+          {photoIds.map((id) => (
+            <div
+              key={id}
+              className="overflow-hidden hover:shadow-lg transition-shadow bg-transparent"
+            >
+              <img
+                // inicia tentando o arquivo com underscore
+                src={`/images/memory${id}_.jpg`}
+                alt={`Memória #${id}`}
+                className="h-80 w-auto object-cover"
+                onError={(e) => handleImgError(e, id)}
+              />
+            </div>
           ))}
         </div>
       </main>

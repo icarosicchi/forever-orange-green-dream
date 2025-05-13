@@ -16,15 +16,15 @@ const AboutPage: React.FC = () => {
           
           <div className="love-card mb-12">
             <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="w-full md:w-1/2">
-                <img 
-                  src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9" 
-                  alt="Us Together" 
-                  className="rounded-lg shadow-lg w-full h-auto"
+              <div className="w-1/2 overflow-hidden">
+                <img
+                  src="/images/print_comeco.jpg"
+                  alt="Us Together"
+                  className="block w-full h-auto"
                 />
               </div>
               
-              <div className="w-full md:w-1/2">
+              <div className="w-full md:h-1/2">
                 <h2 className="text-2xl font-bold mb-4 text-love-green">Como nos conhecemos</h2>
                 <p className="mb-4 text-foreground/90">
                   Nos conhecemos graças ao vídeo sagrado do Corey bêbado, que eu estava muito curioso para ver, e

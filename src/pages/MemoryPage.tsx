@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import MemoryCard from '@/components/MemoryCard';
 import { getMemoryText } from '@/utils/memoryTexts';
 
-const TOTAL_MEMORIES = 100;
+const TOTAL_MEMORIES = 130;
 
 const MemoryPage = () => {
   const { id } = useParams<{ id: string }>();

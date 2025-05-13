@@ -17,7 +17,7 @@ export default function Memories() {
           Todas as Memórias
         </h1>
         <p className="text-center mb-8 text-gray-700">
-          Bem-vindo, {user?.email}! Explore todas as nossas memórias juntos.
+          Explore todas as nossas memórias juntos.
         </p>
         <MemoryGrid totalMemories={TOTAL_MEMORIES} />
       </main>
