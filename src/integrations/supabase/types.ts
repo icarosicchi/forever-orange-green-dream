@@ -9,66 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      bucket_items: {
-        Row: {
-          category: string
-          completed: boolean
-          created_at: string
-          id: string
-          text: string
-          type: string
-          user_id: string
-        }
-        Insert: {
-          category: string
-          completed?: boolean
-          created_at?: string
-          id?: string
-          text: string
-          type: string
-          user_id: string
-        }
-        Update: {
-          category?: string
-          completed?: boolean
-          created_at?: string
-          id?: string
-          text?: string
-          type?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      memories: {
-        Row: {
-          content: string
-          created_at: string
-          id: number
-          image_url: string | null
-          memory_id: number
-          title: string
-          user_id: string
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          id?: number
-          image_url?: string | null
-          memory_id: number
-          title: string
-          user_id: string
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          id?: number
-          image_url?: string | null
-          memory_id?: number
-          title?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
