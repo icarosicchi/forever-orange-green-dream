@@ -24,9 +24,9 @@ const countdownEvents: CountdownEvent[] = [
   },
   {
     id: 3, 
-    title: "Seu aniversário",
-    date: "2025-05-13T22:14:00", // Example date - replace with your actual date
-    description: "Simplesmente o nascimento oficial da mozinha!"
+    title: "Seu próximo niverrr hehe",
+    date: "2026-05-13T22:14:00", // Example date - replace with your actual date
+    description: "Sempre especial!!!"
   },
   // Novo evento personalizado para o casamento
   {

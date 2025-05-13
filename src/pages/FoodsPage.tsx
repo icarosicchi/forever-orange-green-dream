@@ -7,7 +7,7 @@ const TOTAL_PAGES = 130;
 // IDs das fotos que você quer exibir
 const photoIds = [
   8, 22, 27, 32, 38, 39,
-  59, 60, 61, 64, 65, 68,
+  59, 61, 64, 65, 68,
   75, 76, 80, 81, 85, 99,
   100, 102, 108
 ];
@@ -32,7 +32,7 @@ const FoodsPage = () => {
         </h1>
 
         <p className="mb-8 text-center text-lg text-muted-foreground">
-          Aqui estão algumas das memórias registradas em fotos dos nossos momentos mais especiais juntos.
+          Percebi que a gente sai MUITO pra comer. Então nada mais justo que uma página com você e nossas comidinhas
         </p>
 
         {/* flex-wrap gera um grid irregular, sem colunas fixas */}
