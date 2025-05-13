@@ -26,8 +26,8 @@ const backgroundStyle: React.CSSProperties = {
 
 // List of authorized emails
 const AUTHORIZED_EMAILS = [
-  'lucas.silveira@usp.br',
-  'icarosicchieri@usp.br',
+  'icarosicchi@gmail.com',
+  'mfpcortez@usp.br',
 ];
 
 const AuthPage = () => {
