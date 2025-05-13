@@ -10,12 +10,12 @@ import { useToast } from '@/components/ui/use-toast';
 import { Heart, Mail, Lock, LogIn, UserPlus } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
-const backgroundStyle = {
+const backgroundStyle: React.CSSProperties = {
   backgroundImage: "url('/images/fundo2.png')",
   backgroundSize: '100% 100%',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  position: 'fixed',
+  position: 'fixed' as 'fixed',
   top: 0,
   left: 0,
   width: '100vw',
@@ -23,6 +23,12 @@ const backgroundStyle = {
   zIndex: -1,
   opacity: 0.9,
 };
+
+// List of authorized emails
+const AUTHORIZED_EMAILS = [
+  'lucas.silveira@usp.br',
+  'icarosicchieri@usp.br',
+];
 
 const AuthPage = () => {
   const [email, setEmail] = useState('');
@@ -46,6 +52,17 @@ const AuthPage = () => {
     setLoading(true);
     
     try {
+      // Check if email is in the authorized list
+      if (!AUTHORIZED_EMAILS.includes(email)) {
+        toast({
+          variant: "destructive",
+          title: "Acesso negado",
+          description: "Você não está autorizado a criar uma conta.",
+        });
+        setLoading(false);
+        return;
+      }
+      
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -80,6 +97,17 @@ const AuthPage = () => {
     setLoading(true);
     
     try {
+      // Check if email is in the authorized list
+      if (!AUTHORIZED_EMAILS.includes(email)) {
+        toast({
+          variant: "destructive",
+          title: "Acesso negado",
+          description: "Você não está autorizado a acessar este site.",
+        });
+        setLoading(false);
+        return;
+      }
+      
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
