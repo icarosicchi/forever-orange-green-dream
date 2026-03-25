@@ -113,7 +113,7 @@ const CrudDialog: React.FC<CrudDialogProps> = ({ open, onClose, onSave, fields, 
                   {(imagePreview || formData[field.name]) && (
                     <img
                       src={imagePreview || formData[field.name]}
-                      alt="Preview"
+                      alt="Prévia da imagem"
                       className="mt-2 h-32 w-auto rounded object-cover"
                     />
                   )}

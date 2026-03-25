@@ -9,13 +9,15 @@ const TimelinePage: React.FC = () => {
       <Header totalPages={130} />
       
       <main className="container mx-auto px-4 pt-24 pb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center text-gradient">
-          Nossa Linha do Tempo
-        </h1>
-        
-        <p className="text-xl mb-12 text-center text-foreground/80 max-w-2xl mx-auto">
-          Uma jornada por diversos momentos especiais que vivemos
-        </p>
+        <div className="mb-12 max-w-3xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient">
+            Nossa Linha do Tempo
+          </h1>
+          
+          <p className="text-left text-xl text-foreground/80">
+            Uma jornada por diversos momentos especiais que vivemos
+          </p>
+        </div>
         
         <Timeline />
       </main>

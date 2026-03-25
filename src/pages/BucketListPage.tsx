@@ -122,14 +122,17 @@ const BucketListPage: React.FC = () => {
       <Header totalPages={130} />
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-4xl md:text-5xl font-bold text-gradient">Nossos Sonhos e Metas</h1>
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="max-w-2xl">
+              <h1 className="text-4xl md:text-5xl font-bold text-gradient">Nossos Sonhos e Metas</h1>
+              <p className="mt-3 text-left text-xl text-foreground/80">
+                Aventuras que queremos compartilhar juntos!
+              </p>
+            </div>
             <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-green hover:bg-love-green-dark">
               <Plus className="h-4 w-4 mr-1" /> Novo
             </Button>
           </div>
-
-          <p className="text-xl text-center mb-6 text-foreground/80">Aventuras que queremos compartilhar juntos!</p>
 
           <div className="love-card mb-12">
             <div className="mb-2 flex justify-between items-center">

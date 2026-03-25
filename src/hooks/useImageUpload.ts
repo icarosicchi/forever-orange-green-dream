@@ -17,14 +17,22 @@ export const useImageUpload = () => {
         .upload(fileName, file);
 
       if (uploadError) {
-        toast({ title: 'Erro ao fazer upload', description: uploadError.message, variant: 'destructive' });
+        toast({
+          title: 'Erro ao fazer upload',
+          description: 'Não foi possível enviar a imagem agora. Tente novamente em instantes.',
+          variant: 'destructive'
+        });
         return null;
       }
 
       const { data } = supabase.storage.from('memories').getPublicUrl(fileName);
       return data.publicUrl;
     } catch (err) {
-      toast({ title: 'Erro no upload', variant: 'destructive' });
+      toast({
+        title: 'Erro no upload',
+        description: 'Não foi possível enviar a imagem agora. Tente novamente em instantes.',
+        variant: 'destructive'
+      });
       return null;
     } finally {
       setUploading(false);

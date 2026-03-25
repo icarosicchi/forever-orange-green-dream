@@ -19,7 +19,7 @@ const AboutPage: React.FC = () => {
               <div className="w-1/2 overflow-hidden">
                 <img
                   src="/images/print_comeco.jpg"
-                  alt="Us Together"
+                  alt="Nós dois"
                   className="block w-full h-auto"
                 />
               </div>

@@ -67,13 +67,15 @@ export default function Memories() {
     <div className="min-h-screen bg-love-gradient pt-24 pb-16">
       <Header totalPages={TOTAL_MEMORIES} />
       <main className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-gradient">Todas as Memórias</h1>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl font-bold text-gradient">Todas as Memórias</h1>
+            <p className="mt-3 text-left text-gray-700">Explore todas as nossas memórias juntos.</p>
+          </div>
           <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-orange hover:bg-love-orange-dark">
             <Plus className="h-4 w-4 mr-1" /> Nova Memória
           </Button>
         </div>
-        <p className="text-center mb-8 text-gray-700">Explore todas as nossas memórias juntos.</p>
 
         {/* DB memories */}
         {dbMemories.length > 0 && (

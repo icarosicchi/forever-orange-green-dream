@@ -34,13 +34,13 @@ const MemoryPage = () => {
           <MemoryCard
             memoryId={memoryId}
             imageUrl={`/images/memory${memoryId}.jpg`} 
-            title={`Memory #${memoryId}`}
+            title={`Memória #${memoryId}`}
             content={memoryContent}
           />
 
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-500">
-              Memory {memoryId} of {TOTAL_MEMORIES}
+              Memória {memoryId} de {TOTAL_MEMORIES}
             </p>
           </div>
         </div>

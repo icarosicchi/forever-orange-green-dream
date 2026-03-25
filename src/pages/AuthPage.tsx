@@ -30,6 +30,21 @@ const AUTHORIZED_EMAILS = [
   'mfpcortez@usp.br',
 ];
 
+const translateAuthError = (message: string) => {
+  const translations: Array<[string, string]> = [
+    ['Invalid login credentials', 'Email ou senha inválidos.'],
+    ['Email not confirmed', 'Confirme seu email antes de entrar.'],
+    ['User already registered', 'Este email já está cadastrado.'],
+    ['Password should be at least 6 characters', 'A senha deve ter pelo menos 6 caracteres.'],
+    ['Unable to validate email address: invalid format', 'Não foi possível validar o email: formato inválido.'],
+    ['Signup requires a valid password', 'O cadastro exige uma senha válida.'],
+    ['For security purposes, you can only request this after', 'Por segurança, aguarde um pouco antes de tentar novamente.'],
+  ];
+
+  return translations.find(([pattern]) => message.includes(pattern))?.[1]
+    || 'Não foi possível concluir a autenticação.';
+};
+
 const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -72,7 +87,7 @@ const AuthPage = () => {
         toast({
           variant: "destructive",
           title: "Erro no cadastro",
-          description: error.message,
+          description: translateAuthError(error.message),
         });
       } else {
         toast({
@@ -81,7 +96,7 @@ const AuthPage = () => {
         });
       }
     } catch (error) {
-      console.error('Error signing up:', error);
+      console.error('Erro ao cadastrar:', error);
       toast({
         variant: "destructive",
         title: "Erro inesperado",
@@ -117,7 +132,7 @@ const AuthPage = () => {
         toast({
           variant: "destructive",
           title: "Erro no login",
-          description: error.message,
+          description: translateAuthError(error.message),
         });
       } else {
         toast({
@@ -130,7 +145,7 @@ const AuthPage = () => {
         navigate(from, { replace: true });
       }
     } catch (error) {
-      console.error('Error signing in:', error);
+      console.error('Erro ao entrar:', error);
       toast({
         variant: "destructive",
         title: "Erro inesperado",

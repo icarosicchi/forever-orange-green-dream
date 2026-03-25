@@ -82,13 +82,17 @@ const FoodsPage: React.FC = () => {
     <div className="min-h-screen bg-love-gradient">
       <Header totalPages={130} />
       <main className="pt-24 pb-16 container mx-auto px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-3xl font-bold text-gradient">Nossas Comidas Favoritas</h1>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl font-bold text-gradient">Nossas Comidas Favoritas</h1>
+            <p className="mt-3 text-left text-lg text-muted-foreground">
+              Percebi que a gente sai MUITO para comer. Então nada mais justo que uma página com você e nossas comidinhas.
+            </p>
+          </div>
           <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-green hover:bg-love-green-dark">
             <Plus className="h-4 w-4 mr-1" /> Nova
           </Button>
         </div>
-        <p className="mb-8 text-center text-lg text-muted-foreground">Percebi que a gente sai MUITO pra comer. Então nada mais justo que uma página com você e nossas comidinhas</p>
 
         <div className="flex flex-wrap justify-center gap-6">
           {allItems.map(item => (

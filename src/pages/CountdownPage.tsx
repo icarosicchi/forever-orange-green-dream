@@ -98,13 +98,17 @@ const CountdownPage: React.FC = () => {
       <Header totalPages={130} />
       <main className="pt-24 pb-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-4xl md:text-5xl font-bold text-gradient">Contagens para Dias Especiais</h1>
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="max-w-2xl">
+              <h1 className="text-4xl md:text-5xl font-bold text-gradient">Contagens para Dias Especiais</h1>
+              <p className="mt-3 text-left text-xl text-foreground/80">
+                Esperando ansiosamente por esses momentos com você
+              </p>
+            </div>
             <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-orange hover:bg-love-orange-dark">
               <Plus className="h-4 w-4 mr-1" /> Novo
             </Button>
           </div>
-          <p className="text-xl text-center mb-10 text-foreground/80">Ansiosamente Esperando esses Momentos com Você</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allEvents.map(event => (

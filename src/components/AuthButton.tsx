@@ -18,7 +18,7 @@ const AuthButton = () => {
   if (loading) {
     return (
       <Button variant="outline" size="sm" className="bg-white/80" disabled>
-        <span className="animate-pulse">Loading...</span>
+        <span className="animate-pulse">Carregando...</span>
       </Button>
     );
   }
@@ -29,11 +29,11 @@ const AuthButton = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" className="bg-white/80 flex items-center gap-2">
             <Avatar className="h-6 w-6">
-              <AvatarFallback className="text-xs bg-love-green text-white">
+            <AvatarFallback className="text-xs bg-love-green text-white">
                 {user.email ? user.email.substring(0, 2).toUpperCase() : "U"}
               </AvatarFallback>
             </Avatar>
-            <span className="hidden md:inline">Account</span>
+            <span className="hidden md:inline">Conta</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -42,7 +42,7 @@ const AuthButton = () => {
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => signOut()} className="text-red-500 cursor-pointer">
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Sign Out</span>
+            <span>Sair</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -53,7 +53,7 @@ const AuthButton = () => {
     <Button asChild variant="outline" size="sm" className="bg-white/80">
       <Link to="/auth" className="flex items-center gap-2">
         <LogIn className="h-4 w-4" />
-        <span>Sign In</span>
+        <span>Entrar</span>
       </Link>
     </Button>
   );

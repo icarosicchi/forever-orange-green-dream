@@ -1,5 +1,5 @@
 
-// Array of 100 memory texts for the memory pages
+// Array com os textos das memórias exibidas nas páginas
 export const memoryTexts = [
   "15 de janeiro de 2025 - Tu e eu no jogo do Palmeiras em Barueriii",
   "29 de junho - Eu e tu assistindo jogos no nosso primeiro interusppp",
@@ -131,18 +131,18 @@ export const memoryTexts = [
   "26 de fevereiro de 2025 - Tu brava e eu sorridente sapeca",
   "8 de março - Eu e tu no niver da Thaisss",
   "1 de maio de 2025 - Foto recente de euzinho e tu nenenzinha",
-  "That time we helped each other achieve a goal.",
-  "When we created a memory jar to collect moments.",
-  "Our first time making breakfast together.",
-  "The day we found out we have the same taste in music.",
-  "That time we planned our future travels.",
-  "When we celebrated an unexpected win together."
+  "Aquela vez em que ajudamos um ao outro a alcançar uma meta.",
+  "Quando criamos um pote de memórias para guardar momentos.",
+  "Nossa primeira vez fazendo café da manhã juntos.",
+  "O dia em que descobrimos que temos o mesmo gosto musical.",
+  "Aquela vez em que planejamos nossas viagens do futuro.",
+  "Quando comemoramos juntos uma conquista inesperada."
 ];
 
-// Export a function to get a specific memory text by index
+// Retorna o texto de uma memória específica pelo índice
 export const getMemoryText = (index: number): string => {
   if (index >= 1 && index <= memoryTexts.length) {
     return memoryTexts[index - 1];
   }
-  return "Create a special memory description here...";
+  return "Escreva aqui uma descrição especial dessa memória...";
 };

@@ -11,15 +11,15 @@ interface LoveItem {
 }
 
 const loveItems: LoveItem[] = [
-  { id: 1, text: "The way you smile when you're happy", icon: "😊" },
-  { id: 2, text: "How you always know what to say to cheer me up", icon: "🌈" },
-  { id: 3, text: "Your incredible passion for the things you love", icon: "🔥" },
-  { id: 4, text: "The sound of your laugh", icon: "😂" },
-  { id: 5, text: "How you make even ordinary days special", icon: "✨" },
-  { id: 6, text: "Your kindness to everyone you meet", icon: "💖" },
-  { id: 7, text: "The way you dance when nobody's watching", icon: "💃" },
-  { id: 8, text: "Your creativity and imagination", icon: "🎨" },
-  { id: 9, text: "How you're always there when I need you", icon: "🤗" },
+  { id: 1, text: "Seu sorriso quando você está feliz", icon: "😊" },
+  { id: 2, text: "Como você sempre sabe o que dizer para me animar", icon: "🌈" },
+  { id: 3, text: "Sua paixão pelas coisas que ama", icon: "🔥" },
+  { id: 4, text: "O som da sua risada", icon: "😂" },
+  { id: 5, text: "Como você transforma até os dias comuns em especiais", icon: "✨" },
+  { id: 6, text: "Sua gentileza com todo mundo que encontra", icon: "💖" },
+  { id: 7, text: "Seu jeitinho de dançar quando ninguém está olhando", icon: "💃" },
+  { id: 8, text: "Sua criatividade e imaginação", icon: "🎨" },
+  { id: 9, text: "Como você sempre está comigo quando eu preciso", icon: "🤗" },
 ];
 
 const LoveList: React.FC = () => {
@@ -45,7 +45,7 @@ const LoveList: React.FC = () => {
           <CardContent className="p-6 flex items-center justify-center h-full">
             <Link to="/love-list" className="flex flex-col items-center text-love-green hover:text-love-green-dark transition-colors">
               <Heart className="h-8 w-8 mb-2 fill-love-green stroke-love-green-dark" />
-              <p className="text-lg font-medium">See All</p>
+              <p className="text-lg font-medium">Ver tudo</p>
             </Link>
           </CardContent>
         </Card>
