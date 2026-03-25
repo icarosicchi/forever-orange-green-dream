@@ -44,6 +44,81 @@ export type Database = {
         }
         Relationships: []
       }
+      countdown_events: {
+        Row: {
+          created_at: string
+          date: string
+          description: string
+          id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          description?: string
+          id?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      food_items: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          image_url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          image_url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      love_items: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          text: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          text: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          text?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       memories: {
         Row: {
           content: string
@@ -69,6 +144,36 @@ export type Database = {
           id?: number
           image_url?: string | null
           memory_id?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      timeline_events: {
+        Row: {
+          created_at: string
+          date: string
+          description: string
+          id: string
+          image_url: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          image_url?: string | null
           title?: string
           user_id?: string
         }
