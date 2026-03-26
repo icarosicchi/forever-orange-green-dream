@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
-import { Button } from '@/components/ui/button';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 import CrudDialog, { FieldConfig } from '@/components/CrudDialog';
+import CrudActionBar from '@/components/CrudActionBar';
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
+import ItemPickerDialog from '@/components/ItemPickerDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -26,6 +26,7 @@ const FoodsPage: React.FC = () => {
   const { toast } = useToast();
   const [items, setItems] = useState<FoodItem[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectionMode, setSelectionMode] = useState<'edit' | 'delete' | null>(null);
   const [editItem, setEditItem] = useState<FoodItem | null>(null);
   const [deleteItem, setDeleteItem] = useState<FoodItem | null>(null);
 
@@ -52,6 +53,25 @@ const FoodsPage: React.FC = () => {
   useEffect(() => {
     fetchItems();
   }, []);
+
+  const handleSelectItem = (id: string | number) => {
+    const selectedItem = items.find((item) => item.id === id);
+    const currentMode = selectionMode;
+
+    if (!selectedItem || !currentMode) {
+      return;
+    }
+
+    setSelectionMode(null);
+
+    if (currentMode === 'edit') {
+      setEditItem(selectedItem);
+      setDialogOpen(true);
+      return;
+    }
+
+    setDeleteItem(selectedItem);
+  };
 
   const handleSave = async (data: Record<string, string>) => {
     if (!user) {
@@ -140,23 +160,19 @@ const FoodsPage: React.FC = () => {
               Percebi que a gente sai MUITO para comer. Entao nada mais justo que uma pagina com voce e nossas comidinhas.
             </p>
           </div>
-          <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-green hover:bg-love-green-dark">
-            <Plus className="h-4 w-4 mr-1" /> Nova
-          </Button>
+          <CrudActionBar
+            onCreate={() => { setEditItem(null); setDialogOpen(true); }}
+            onEdit={() => setSelectionMode('edit')}
+            onDelete={() => setSelectionMode('delete')}
+            createClassName="bg-love-green hover:bg-love-green-dark"
+            managementDisabled={items.length === 0}
+          />
         </div>
 
         <div className="flex flex-wrap justify-center gap-6">
           {items.map((item) => (
-            <div key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow bg-transparent relative group">
+            <div key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow bg-transparent relative">
               <img src={item.imageUrl} alt={item.description} className="h-80 w-auto object-cover" onError={handleImgError} />
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button variant="secondary" size="icon" className="h-8 w-8" onClick={() => { setEditItem(item); setDialogOpen(true); }}>
-                  <Pencil className="h-3 w-3" />
-                </Button>
-                <Button variant="destructive" size="icon" className="h-8 w-8" onClick={() => setDeleteItem(item)}>
-                  <Trash2 className="h-3 w-3" />
-                </Button>
-              </div>
               {item.description && (
                 <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-sm p-2 text-center">{item.description}</div>
               )}
@@ -172,6 +188,19 @@ const FoodsPage: React.FC = () => {
         fields={fields}
         initialData={editItem ? { image_url: editItem.imageUrl, description: editItem.description } : undefined}
         title={editItem ? 'Editar Comida' : 'Nova Comida'}
+      />
+      <ItemPickerDialog
+        open={selectionMode !== null}
+        onClose={() => setSelectionMode(null)}
+        onSelect={handleSelectItem}
+        title={selectionMode === 'edit' ? 'Escolha a comida para editar' : 'Escolha a comida para excluir'}
+        items={items.map((item, index) => ({
+          id: item.id,
+          title: item.description || `Foto ${index + 1}`,
+          subtitle: `Imagem ${index + 1}`,
+          searchText: `${item.description} ${item.imageUrl}`,
+        }))}
+        searchPlaceholder="Buscar comida..."
       />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>

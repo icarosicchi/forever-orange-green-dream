@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 import CrudDialog, { FieldConfig } from '@/components/CrudDialog';
+import CrudActionBar from '@/components/CrudActionBar';
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
+import ItemPickerDialog from '@/components/ItemPickerDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -52,6 +52,7 @@ const CountdownPage: React.FC = () => {
   const [events, setEvents] = useState<CountdownEvent[]>([]);
   const [timeLefts, setTimeLefts] = useState<Record<string, TimeLeft>>({});
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectionMode, setSelectionMode] = useState<'edit' | 'delete' | null>(null);
   const [editItem, setEditItem] = useState<CountdownEvent | null>(null);
   const [deleteItem, setDeleteItem] = useState<CountdownEvent | null>(null);
 
@@ -89,6 +90,33 @@ const CountdownPage: React.FC = () => {
     const timer = setInterval(update, 1000);
     return () => clearInterval(timer);
   }, [events]);
+
+  const formatEventDate = (date: string) => {
+    if (date === '?') {
+      return 'Em breve...';
+    }
+
+    return new Date(date).toLocaleDateString('pt-BR');
+  };
+
+  const handleSelectItem = (id: string | number) => {
+    const selectedItem = events.find((event) => event.id === id);
+    const currentMode = selectionMode;
+
+    if (!selectedItem || !currentMode) {
+      return;
+    }
+
+    setSelectionMode(null);
+
+    if (currentMode === 'edit') {
+      setEditItem(selectedItem);
+      setDialogOpen(true);
+      return;
+    }
+
+    setDeleteItem(selectedItem);
+  };
 
   const handleSave = async (data: Record<string, string>) => {
     if (!user) {
@@ -162,26 +190,20 @@ const CountdownPage: React.FC = () => {
                 Esperando ansiosamente por esses momentos com voce
               </p>
             </div>
-            <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-orange hover:bg-love-orange-dark">
-              <Plus className="h-4 w-4 mr-1" /> Novo
-            </Button>
+            <CrudActionBar
+              onCreate={() => { setEditItem(null); setDialogOpen(true); }}
+              onEdit={() => setSelectionMode('edit')}
+              onDelete={() => setSelectionMode('delete')}
+              createClassName="bg-love-orange hover:bg-love-orange-dark"
+              managementDisabled={events.length === 0}
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {events.map((event) => (
               <Card key={event.id} className="border-love-orange/20 overflow-hidden">
                 <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <h3 className="text-xl font-medium mb-2">{event.title}</h3>
-                    <div className="flex gap-1">
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { setEditItem(event); setDialogOpen(true); }}>
-                        <Pencil className="h-3 w-3" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setDeleteItem(event)}>
-                        <Trash2 className="h-3 w-3 text-destructive" />
-                      </Button>
-                    </div>
-                  </div>
+                  <h3 className="text-xl font-medium mb-2">{event.title}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{event.description}</p>
                   <div className="flex justify-around text-center">
                     {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
@@ -197,7 +219,7 @@ const CountdownPage: React.FC = () => {
                   </div>
                   <div className="mt-4 text-center text-sm">
                     <span className="text-love-orange">Data: </span>
-                    {event.date === '?' ? 'Em breve...' : new Date(event.date).toLocaleDateString('pt-BR')}
+                    {formatEventDate(event.date)}
                   </div>
                 </CardContent>
               </Card>
@@ -213,6 +235,19 @@ const CountdownPage: React.FC = () => {
         fields={fields}
         initialData={editItem ? { title: editItem.title, date: editItem.date, description: editItem.description } : undefined}
         title={editItem ? 'Editar Contagem' : 'Nova Contagem'}
+      />
+      <ItemPickerDialog
+        open={selectionMode !== null}
+        onClose={() => setSelectionMode(null)}
+        onSelect={handleSelectItem}
+        title={selectionMode === 'edit' ? 'Escolha a contagem para editar' : 'Escolha a contagem para excluir'}
+        items={events.map((event) => ({
+          id: event.id,
+          title: event.title,
+          subtitle: `Data: ${formatEventDate(event.date)}`,
+          searchText: `${event.title} ${event.description} ${event.date}`,
+        }))}
+        searchPlaceholder="Buscar contagem..."
       />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>

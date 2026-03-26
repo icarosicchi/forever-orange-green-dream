@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Calendar, Plus, Pencil, Trash2 } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import CrudDialog, { FieldConfig } from '@/components/CrudDialog';
+import CrudActionBar from '@/components/CrudActionBar';
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
+import ItemPickerDialog from '@/components/ItemPickerDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -30,6 +31,7 @@ const Timeline: React.FC = () => {
   const { toast } = useToast();
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectionMode, setSelectionMode] = useState<'edit' | 'delete' | null>(null);
   const [editItem, setEditItem] = useState<TimelineEvent | null>(null);
   const [deleteItem, setDeleteItem] = useState<TimelineEvent | null>(null);
 
@@ -62,6 +64,25 @@ const Timeline: React.FC = () => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+  };
+
+  const handleSelectItem = (id: string | number) => {
+    const selectedItem = events.find((event) => event.id === id);
+    const currentMode = selectionMode;
+
+    if (!selectedItem || !currentMode) {
+      return;
+    }
+
+    setSelectionMode(null);
+
+    if (currentMode === 'edit') {
+      setEditItem(selectedItem);
+      setDialogOpen(true);
+      return;
+    }
+
+    setDeleteItem(selectedItem);
   };
 
   const handleSave = async (data: Record<string, string>) => {
@@ -133,9 +154,13 @@ const Timeline: React.FC = () => {
   return (
     <div className="relative">
       <div className="flex justify-end mb-6">
-        <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-green hover:bg-love-green-dark">
-          <Plus className="h-4 w-4 mr-1" /> Novo Evento
-        </Button>
+        <CrudActionBar
+          onCreate={() => { setEditItem(null); setDialogOpen(true); }}
+          onEdit={() => setSelectionMode('edit')}
+          onDelete={() => setSelectionMode('delete')}
+          createClassName="bg-love-green hover:bg-love-green-dark"
+          managementDisabled={events.length === 0}
+        />
       </div>
 
       <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-love-green to-love-orange" />
@@ -151,19 +176,9 @@ const Timeline: React.FC = () => {
                   </div>
                 )}
                 <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-2 text-love-orange mb-2">
-                      <Calendar className="h-4 w-4" />
-                      <span className="text-sm font-medium">{formatDate(event.date)}</span>
-                    </div>
-                    <div className="flex gap-1">
-                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => { setEditItem(event); setDialogOpen(true); }}>
-                        <Pencil className="h-3 w-3" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setDeleteItem(event)}>
-                        <Trash2 className="h-3 w-3 text-destructive" />
-                      </Button>
-                    </div>
+                  <div className="flex items-center space-x-2 text-love-orange mb-2">
+                    <Calendar className="h-4 w-4" />
+                    <span className="text-sm font-medium">{formatDate(event.date)}</span>
                   </div>
                   <h3 className="text-xl font-bold mb-2">{event.title}</h3>
                   <p className="text-foreground/80">{event.description}</p>
@@ -185,6 +200,19 @@ const Timeline: React.FC = () => {
         fields={fields}
         initialData={editItem ? { title: editItem.title, date: editItem.date, description: editItem.description, image_url: editItem.imageUrl || '' } : undefined}
         title={editItem ? 'Editar Evento' : 'Novo Evento'}
+      />
+      <ItemPickerDialog
+        open={selectionMode !== null}
+        onClose={() => setSelectionMode(null)}
+        onSelect={handleSelectItem}
+        title={selectionMode === 'edit' ? 'Escolha o evento para editar' : 'Escolha o evento para excluir'}
+        items={events.map((event) => ({
+          id: event.id,
+          title: event.title,
+          subtitle: formatDate(event.date),
+          searchText: `${event.title} ${event.description} ${event.date}`,
+        }))}
+        searchPlaceholder="Buscar evento..."
       />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>

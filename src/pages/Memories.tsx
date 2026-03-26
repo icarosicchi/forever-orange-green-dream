@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import MemoryGrid, { MemoryGridItem } from '@/components/MemoryGrid';
 import Header from '@/components/Header';
 import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 import CrudDialog, { FieldConfig } from '@/components/CrudDialog';
+import CrudActionBar from '@/components/CrudActionBar';
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
+import ItemPickerDialog from '@/components/ItemPickerDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { getCurrentSpaceId } from '@/lib/space';
@@ -21,6 +21,7 @@ export default function Memories() {
   const { toast } = useToast();
   const [memories, setMemories] = useState<MemoryGridItem[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectionMode, setSelectionMode] = useState<'edit' | 'delete' | null>(null);
   const [editItem, setEditItem] = useState<MemoryGridItem | null>(null);
   const [deleteItem, setDeleteItem] = useState<MemoryGridItem | null>(null);
 
@@ -41,6 +42,25 @@ export default function Memories() {
   useEffect(() => {
     fetchMemories();
   }, []);
+
+  const handleSelectItem = (id: string | number) => {
+    const selectedItem = memories.find((memory) => memory.id === id);
+    const currentMode = selectionMode;
+
+    if (!selectedItem || !currentMode) {
+      return;
+    }
+
+    setSelectionMode(null);
+
+    if (currentMode === 'edit') {
+      setEditItem(selectedItem);
+      setDialogOpen(true);
+      return;
+    }
+
+    setDeleteItem(selectedItem);
+  };
 
   const handleSave = async (data: Record<string, string>) => {
     if (!user) {
@@ -116,16 +136,16 @@ export default function Memories() {
             <h1 className="text-3xl font-bold text-gradient">Todas as Memorias</h1>
             <p className="mt-3 text-left text-gray-700">Explore todas as nossas memorias juntos.</p>
           </div>
-          <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-orange hover:bg-love-orange-dark">
-            <Plus className="h-4 w-4 mr-1" /> Nova Memoria
-          </Button>
+          <CrudActionBar
+            onCreate={() => { setEditItem(null); setDialogOpen(true); }}
+            onEdit={() => setSelectionMode('edit')}
+            onDelete={() => setSelectionMode('delete')}
+            createClassName="bg-love-orange hover:bg-love-orange-dark"
+            managementDisabled={memories.length === 0}
+          />
         </div>
 
-        <MemoryGrid
-          memories={memories}
-          onEdit={(memory) => { setEditItem(memory); setDialogOpen(true); }}
-          onDelete={(memory) => setDeleteItem(memory)}
-        />
+        <MemoryGrid memories={memories} />
       </main>
 
       <CrudDialog
@@ -135,6 +155,19 @@ export default function Memories() {
         fields={fields}
         initialData={editItem ? { title: editItem.title, content: editItem.content, image_url: editItem.image_url || '' } : undefined}
         title={editItem ? 'Editar Memoria' : 'Nova Memoria'}
+      />
+      <ItemPickerDialog
+        open={selectionMode !== null}
+        onClose={() => setSelectionMode(null)}
+        onSelect={handleSelectItem}
+        title={selectionMode === 'edit' ? 'Escolha a memoria para editar' : 'Escolha a memoria para excluir'}
+        items={memories.map((memory) => ({
+          id: memory.id,
+          title: memory.title || `Memoria ${memory.memory_id}`,
+          subtitle: `Memoria ${memory.memory_id} • ${memory.content.slice(0, 80)}`,
+          searchText: `${memory.memory_id} ${memory.title} ${memory.content}`,
+        }))}
+        searchPlaceholder="Buscar memoria..."
       />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>

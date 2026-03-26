@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 import CrudDialog, { FieldConfig } from '@/components/CrudDialog';
+import CrudActionBar from '@/components/CrudActionBar';
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
+import ItemPickerDialog from '@/components/ItemPickerDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -37,6 +37,7 @@ const LoveListPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [items, setItems] = useState<LoveItem[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectionMode, setSelectionMode] = useState<'edit' | 'delete' | null>(null);
   const [editItem, setEditItem] = useState<LoveItem | null>(null);
   const [deleteItem, setDeleteItem] = useState<LoveItem | null>(null);
 
@@ -62,6 +63,29 @@ const LoveListPage: React.FC = () => {
   const filteredItems = activeCategory === 'all'
     ? items
     : items.filter((item) => item.category === activeCategory);
+
+  const getCategoryLabel = (categoryId: string) => (
+    categories.find((category) => category.id === categoryId)?.label ?? 'Sem categoria'
+  );
+
+  const handleSelectItem = (id: string | number) => {
+    const selectedItem = items.find((item) => item.id === id);
+    const currentMode = selectionMode;
+
+    if (!selectedItem || !currentMode) {
+      return;
+    }
+
+    setSelectionMode(null);
+
+    if (currentMode === 'edit') {
+      setEditItem(selectedItem);
+      setDialogOpen(true);
+      return;
+    }
+
+    setDeleteItem(selectedItem);
+  };
 
   const handleSave = async (data: Record<string, string>) => {
     if (!user) {
@@ -134,9 +158,13 @@ const LoveListPage: React.FC = () => {
                 Algumas das razoes pelas quais meu coracao bate por voce
               </p>
             </div>
-            <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-orange hover:bg-love-orange-dark">
-              <Plus className="h-4 w-4 mr-1" /> Novo
-            </Button>
+            <CrudActionBar
+              onCreate={() => { setEditItem(null); setDialogOpen(true); }}
+              onEdit={() => setSelectionMode('edit')}
+              onDelete={() => setSelectionMode('delete')}
+              createClassName="bg-love-orange hover:bg-love-orange-dark"
+              managementDisabled={items.length === 0}
+            />
           </div>
 
           <div className="flex flex-wrap justify-center gap-2 mb-12">
@@ -155,16 +183,8 @@ const LoveListPage: React.FC = () => {
             {filteredItems.map((item) => (
               <div key={item.id} className="transform hover:scale-105 transition-transform duration-300">
                 <Card className="h-full border-love-orange/20 overflow-hidden">
-                  <CardContent className="p-6 flex items-start justify-between gap-2">
-                    <p className="text-foreground/90 flex-1">{item.text}</p>
-                    <div className="flex gap-1 flex-shrink-0">
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { setEditItem(item); setDialogOpen(true); }}>
-                        <Pencil className="h-3 w-3" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setDeleteItem(item)}>
-                        <Trash2 className="h-3 w-3 text-destructive" />
-                      </Button>
-                    </div>
+                  <CardContent className="p-6">
+                    <p className="text-foreground/90">{item.text}</p>
                   </CardContent>
                 </Card>
               </div>
@@ -180,6 +200,19 @@ const LoveListPage: React.FC = () => {
         fields={fields}
         initialData={editItem ? { text: editItem.text, category: editItem.category } : undefined}
         title={editItem ? 'Editar Item' : 'Novo Item'}
+      />
+      <ItemPickerDialog
+        open={selectionMode !== null}
+        onClose={() => setSelectionMode(null)}
+        onSelect={handleSelectItem}
+        title={selectionMode === 'edit' ? 'Escolha o item para editar' : 'Escolha o item para excluir'}
+        items={items.map((item) => ({
+          id: item.id,
+          title: item.text,
+          subtitle: getCategoryLabel(item.category),
+          searchText: `${item.text} ${item.category} ${getCategoryLabel(item.category)}`,
+        }))}
+        searchPlaceholder="Buscar item..."
       />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>

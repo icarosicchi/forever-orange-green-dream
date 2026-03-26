@@ -3,10 +3,10 @@ import Header from '@/components/Header';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 import CrudDialog, { FieldConfig } from '@/components/CrudDialog';
+import CrudActionBar from '@/components/CrudActionBar';
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
+import ItemPickerDialog from '@/components/ItemPickerDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -49,6 +49,7 @@ const BucketListPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeType, setActiveType] = useState('all');
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectionMode, setSelectionMode] = useState<'edit' | 'delete' | null>(null);
   const [editItem, setEditItem] = useState<BucketItem | null>(null);
   const [deleteItem, setDeleteItem] = useState<BucketItem | null>(null);
 
@@ -77,8 +78,35 @@ const BucketListPage: React.FC = () => {
     return categoryMatch && typeMatch;
   });
 
+  const getCategoryLabel = (categoryId: string) => (
+    categories.find((category) => category.id === categoryId)?.label ?? 'Sem categoria'
+  );
+
+  const getTypeLabel = (typeId: string) => (
+    types.find((type) => type.id === typeId)?.label ?? 'Sem tipo'
+  );
+
   const completedCount = items.filter((item) => item.completed).length;
   const progressPercentage = items.length > 0 ? Math.round((completedCount / items.length) * 100) : 0;
+
+  const handleSelectItem = (id: string | number) => {
+    const selectedItem = items.find((item) => item.id === id);
+    const currentMode = selectionMode;
+
+    if (!selectedItem || !currentMode) {
+      return;
+    }
+
+    setSelectionMode(null);
+
+    if (currentMode === 'edit') {
+      setEditItem(selectedItem);
+      setDialogOpen(true);
+      return;
+    }
+
+    setDeleteItem(selectedItem);
+  };
 
   const toggleItemCompletion = async (item: BucketItem) => {
     const { error } = await supabase
@@ -167,9 +195,13 @@ const BucketListPage: React.FC = () => {
                 Aventuras que queremos compartilhar juntos!
               </p>
             </div>
-            <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-green hover:bg-love-green-dark">
-              <Plus className="h-4 w-4 mr-1" /> Novo
-            </Button>
+            <CrudActionBar
+              onCreate={() => { setEditItem(null); setDialogOpen(true); }}
+              onEdit={() => setSelectionMode('edit')}
+              onDelete={() => setSelectionMode('delete')}
+              createClassName="bg-love-green hover:bg-love-green-dark"
+              managementDisabled={items.length === 0}
+            />
           </div>
 
           <div className="love-card mb-12">
@@ -217,14 +249,6 @@ const BucketListPage: React.FC = () => {
                   <span className={`flex-1 ${item.completed ? 'line-through text-muted-foreground' : ''}`}>
                     {item.text}
                   </span>
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="icon" onClick={() => { setEditItem(item); setDialogOpen(true); }}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setDeleteItem(item)}>
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -239,6 +263,19 @@ const BucketListPage: React.FC = () => {
         fields={fields}
         initialData={editItem ? { text: editItem.text, category: editItem.category, type: editItem.type } : undefined}
         title={editItem ? 'Editar Sonho' : 'Novo Sonho'}
+      />
+      <ItemPickerDialog
+        open={selectionMode !== null}
+        onClose={() => setSelectionMode(null)}
+        onSelect={handleSelectItem}
+        title={selectionMode === 'edit' ? 'Escolha o sonho para editar' : 'Escolha o sonho para excluir'}
+        items={items.map((item) => ({
+          id: item.id,
+          title: item.text,
+          subtitle: `${getCategoryLabel(item.category)} • ${getTypeLabel(item.type)}${item.completed ? ' • Completo' : ''}`,
+          searchText: `${item.text} ${item.category} ${item.type} ${getCategoryLabel(item.category)} ${getTypeLabel(item.type)}`,
+        }))}
+        searchPlaceholder="Buscar sonho ou meta..."
       />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>
