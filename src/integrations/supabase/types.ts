@@ -20,8 +20,12 @@ export type Database = {
           completed: boolean
           created_at: string
           id: string
+          legacy_key: string | null
+          sort_order: number
+          space_id: string | null
           text: string
           type: string
+          updated_at: string
           user_id: string
         }
         Insert: {
@@ -29,8 +33,12 @@ export type Database = {
           completed?: boolean
           created_at?: string
           id?: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           text: string
           type: string
+          updated_at?: string
           user_id: string
         }
         Update: {
@@ -38,8 +46,12 @@ export type Database = {
           completed?: boolean
           created_at?: string
           id?: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           text?: string
           type?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -50,7 +62,11 @@ export type Database = {
           date: string
           description: string
           id: string
+          legacy_key: string | null
+          sort_order: number
+          space_id: string | null
           title: string
+          updated_at: string
           user_id: string
         }
         Insert: {
@@ -58,7 +74,11 @@ export type Database = {
           date: string
           description?: string
           id?: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           title: string
+          updated_at?: string
           user_id: string
         }
         Update: {
@@ -66,7 +86,11 @@ export type Database = {
           date?: string
           description?: string
           id?: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           title?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -77,6 +101,10 @@ export type Database = {
           description: string
           id: string
           image_url: string
+          legacy_key: string | null
+          sort_order: number
+          space_id: string | null
+          updated_at: string
           user_id: string
         }
         Insert: {
@@ -84,6 +112,10 @@ export type Database = {
           description?: string
           id?: string
           image_url: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
+          updated_at?: string
           user_id: string
         }
         Update: {
@@ -91,6 +123,10 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -100,21 +136,33 @@ export type Database = {
           category: string
           created_at: string
           id: string
+          legacy_key: string | null
+          sort_order: number
+          space_id: string | null
           text: string
+          updated_at: string
           user_id: string
         }
         Insert: {
           category?: string
           created_at?: string
           id?: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           text: string
+          updated_at?: string
           user_id: string
         }
         Update: {
           category?: string
           created_at?: string
           id?: string
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           text?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -125,8 +173,12 @@ export type Database = {
           created_at: string
           id: number
           image_url: string | null
+          legacy_key: string | null
           memory_id: number
+          sort_order: number
+          space_id: string | null
           title: string
+          updated_at: string
           user_id: string
         }
         Insert: {
@@ -134,8 +186,12 @@ export type Database = {
           created_at?: string
           id?: number
           image_url?: string | null
+          legacy_key?: string | null
           memory_id: number
+          sort_order?: number
+          space_id?: string | null
           title: string
+          updated_at?: string
           user_id: string
         }
         Update: {
@@ -143,9 +199,106 @@ export type Database = {
           created_at?: string
           id?: number
           image_url?: string | null
+          legacy_key?: string | null
           memory_id?: number
+          sort_order?: number
+          space_id?: string | null
           title?: string
+          updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          body: string | null
+          content_key: string
+          created_at: string
+          created_by: string
+          id: string
+          json_value: Json | null
+          sort_order: number
+          space_id: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          content_key: string
+          created_at?: string
+          created_by: string
+          id?: string
+          json_value?: Json | null
+          sort_order?: number
+          space_id: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          content_key?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          json_value?: Json | null
+          sort_order?: number
+          space_id?: string
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      space_members: {
+        Row: {
+          created_at: string
+          role: string
+          space_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          role?: string
+          space_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          role?: string
+          space_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      spaces: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string
+          id: string
+          name: string
+          slug: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string
+          id?: string
+          name: string
+          slug?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string
+          id?: string
+          name?: string
+          slug?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -156,7 +309,11 @@ export type Database = {
           description: string
           id: string
           image_url: string | null
+          legacy_key: string | null
+          sort_order: number
+          space_id: string | null
           title: string
+          updated_at: string
           user_id: string
         }
         Insert: {
@@ -165,7 +322,11 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string | null
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           title: string
+          updated_at?: string
           user_id: string
         }
         Update: {
@@ -174,7 +335,11 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string | null
+          legacy_key?: string | null
+          sort_order?: number
+          space_id?: string | null
           title?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
@@ -7,75 +7,126 @@ import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { getCurrentSpaceId } from '@/lib/space';
 
 interface FoodItem {
   id: string;
   imageUrl: string;
   description: string;
-  isLocal?: boolean;
+  sort_order: number;
 }
-
-const hardcodedPhotoIds = [8, 22, 27, 32, 38, 39, 59, 61, 64, 65, 68, 75, 76, 80, 81, 85, 99, 100, 102, 108];
-
-const hardcodedFoods: FoodItem[] = hardcodedPhotoIds.map((id, i) => ({
-  id: `food-${i}`,
-  imageUrl: `/images/memory${id}.jpg`,
-  description: `Memória #${id}`,
-  isLocal: true,
-}));
 
 const fields: FieldConfig[] = [
   { name: 'image_url', label: 'Foto', type: 'image' },
-  { name: 'description', label: 'Descrição', type: 'text', placeholder: 'Descreva a comida...' },
+  { name: 'description', label: 'Descricao', type: 'text', placeholder: 'Descreva a comida...' },
 ];
 
 const FoodsPage: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [dbItems, setDbItems] = useState<FoodItem[]>([]);
+  const [items, setItems] = useState<FoodItem[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editItem, setEditItem] = useState<FoodItem | null>(null);
   const [deleteItem, setDeleteItem] = useState<FoodItem | null>(null);
 
   const fetchItems = async () => {
-    const { data } = await supabase.from('food_items').select('*').order('created_at');
-    if (data) setDbItems(data.map(d => ({ id: d.id, imageUrl: d.image_url, description: d.description })));
+    const { data, error } = await supabase
+      .from('food_items')
+      .select('id, image_url, description, sort_order')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      toast({ variant: 'destructive', title: 'Erro ao carregar comidas' });
+      return;
+    }
+
+    setItems((data ?? []).map((item) => ({
+      id: item.id,
+      imageUrl: item.image_url,
+      description: item.description,
+      sort_order: item.sort_order,
+    })));
   };
 
-  useEffect(() => { fetchItems(); }, []);
-
-  const allItems = [...hardcodedFoods, ...dbItems];
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   const handleSave = async (data: Record<string, string>) => {
-    if (!user) return;
-    if (editItem && !editItem.isLocal) {
-      await supabase.from('food_items').update({ image_url: data.image_url, description: data.description }).eq('id', editItem.id);
+    if (!user) {
+      return;
+    }
+
+    if (editItem) {
+      const { error } = await supabase
+        .from('food_items')
+        .update({ image_url: data.image_url, description: data.description || '' })
+        .eq('id', editItem.id);
+
+      if (error) {
+        toast({ variant: 'destructive', title: 'Erro ao atualizar comida' });
+        return;
+      }
+
       toast({ title: 'Atualizado!' });
     } else {
-      await supabase.from('food_items').insert({ image_url: data.image_url, description: data.description || '', user_id: user.id });
+      const spaceId = await getCurrentSpaceId(user.id);
+      const nextSortOrder = items.length > 0 ? Math.max(...items.map((item) => item.sort_order)) + 1 : 1;
+
+      const { error } = await supabase.from('food_items').insert({
+        image_url: data.image_url,
+        description: data.description || '',
+        user_id: user.id,
+        space_id: spaceId,
+        sort_order: nextSortOrder,
+      });
+
+      if (error) {
+        toast({ variant: 'destructive', title: 'Erro ao adicionar comida' });
+        return;
+      }
+
       toast({ title: 'Adicionado!' });
     }
+
     setEditItem(null);
+    setDialogOpen(false);
     fetchItems();
   };
 
   const handleDelete = async () => {
-    if (!deleteItem || deleteItem.isLocal) return;
-    await supabase.from('food_items').delete().eq('id', deleteItem.id);
-    toast({ title: 'Excluído!' });
+    if (!deleteItem) {
+      return;
+    }
+
+    const { error } = await supabase.from('food_items').delete().eq('id', deleteItem.id);
+
+    if (error) {
+      toast({ variant: 'destructive', title: 'Erro ao excluir comida' });
+      return;
+    }
+
+    toast({ title: 'Excluido!' });
     setDeleteItem(null);
     fetchItems();
   };
 
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>, item: FoodItem) => {
-    if (item.isLocal) {
-      const img = e.currentTarget;
-      if (!img.dataset.triedNormal) {
-        img.dataset.triedNormal = 'true';
-        const id = item.description.replace('Memória #', '');
-        img.src = `/images/memory${id}_.jpg`;
-      }
+  const handleImgError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const image = event.currentTarget;
+
+    if (image.dataset.triedFallback === 'true') {
+      return;
     }
+
+    const match = image.src.match(/memory(\d+)\.jpg$/);
+
+    if (!match) {
+      return;
+    }
+
+    image.dataset.triedFallback = 'true';
+    image.src = `/images/memory${match[1]}_.jpg`;
   };
 
   return (
@@ -86,7 +137,7 @@ const FoodsPage: React.FC = () => {
           <div className="max-w-2xl">
             <h1 className="text-3xl font-bold text-gradient">Nossas Comidas Favoritas</h1>
             <p className="mt-3 text-left text-lg text-muted-foreground">
-              Percebi que a gente sai MUITO para comer. Então nada mais justo que uma página com você e nossas comidinhas.
+              Percebi que a gente sai MUITO para comer. Entao nada mais justo que uma pagina com voce e nossas comidinhas.
             </p>
           </div>
           <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-green hover:bg-love-green-dark">
@@ -95,16 +146,18 @@ const FoodsPage: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-6">
-          {allItems.map(item => (
+          {items.map((item) => (
             <div key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow bg-transparent relative group">
-              <img src={item.imageUrl} alt={item.description} className="h-80 w-auto object-cover" onError={e => handleImgError(e, item)} />
-              {!item.isLocal && (
-                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button variant="secondary" size="icon" className="h-8 w-8" onClick={() => { setEditItem(item); setDialogOpen(true); }}><Pencil className="h-3 w-3" /></Button>
-                  <Button variant="destructive" size="icon" className="h-8 w-8" onClick={() => setDeleteItem(item)}><Trash2 className="h-3 w-3" /></Button>
-                </div>
-              )}
-              {item.description && !item.isLocal && (
+              <img src={item.imageUrl} alt={item.description} className="h-80 w-auto object-cover" onError={handleImgError} />
+              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button variant="secondary" size="icon" className="h-8 w-8" onClick={() => { setEditItem(item); setDialogOpen(true); }}>
+                  <Pencil className="h-3 w-3" />
+                </Button>
+                <Button variant="destructive" size="icon" className="h-8 w-8" onClick={() => setDeleteItem(item)}>
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              </div>
+              {item.description && (
                 <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-sm p-2 text-center">{item.description}</div>
               )}
             </div>
@@ -112,9 +165,14 @@ const FoodsPage: React.FC = () => {
         </div>
       </main>
 
-      <CrudDialog open={dialogOpen} onClose={() => { setDialogOpen(false); setEditItem(null); }} onSave={handleSave} fields={fields}
+      <CrudDialog
+        open={dialogOpen}
+        onClose={() => { setDialogOpen(false); setEditItem(null); }}
+        onSave={handleSave}
+        fields={fields}
         initialData={editItem ? { image_url: editItem.imageUrl, description: editItem.description } : undefined}
-        title={editItem ? 'Editar Comida' : 'Nova Comida'} />
+        title={editItem ? 'Editar Comida' : 'Nova Comida'}
+      />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>
   );

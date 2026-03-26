@@ -1,115 +1,141 @@
-import React, { useState, useEffect } from 'react';
-import MemoryGrid from '@/components/MemoryGrid';
+import React, { useEffect, useState } from 'react';
+import MemoryGrid, { MemoryGridItem } from '@/components/MemoryGrid';
 import Header from '@/components/Header';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Plus } from 'lucide-react';
 import CrudDialog, { FieldConfig } from '@/components/CrudDialog';
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-
-interface DbMemory {
-  id: number;
-  memory_id: number;
-  title: string;
-  content: string;
-  image_url: string | null;
-}
-
-const TOTAL_MEMORIES = 130;
+import { getCurrentSpaceId } from '@/lib/space';
 
 const fields: FieldConfig[] = [
-  { name: 'title', label: 'Título', type: 'text', required: true, placeholder: 'Ex: Nosso dia especial' },
-  { name: 'content', label: 'Descrição', type: 'textarea', placeholder: 'Conte sobre essa memória...' },
+  { name: 'title', label: 'Titulo', type: 'text', required: true, placeholder: 'Ex: Nosso dia especial' },
+  { name: 'content', label: 'Descricao', type: 'textarea', placeholder: 'Conte sobre essa memoria...' },
   { name: 'image_url', label: 'Foto', type: 'image' },
 ];
 
 export default function Memories() {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [dbMemories, setDbMemories] = useState<DbMemory[]>([]);
+  const [memories, setMemories] = useState<MemoryGridItem[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editItem, setEditItem] = useState<DbMemory | null>(null);
-  const [deleteItem, setDeleteItem] = useState<DbMemory | null>(null);
+  const [editItem, setEditItem] = useState<MemoryGridItem | null>(null);
+  const [deleteItem, setDeleteItem] = useState<MemoryGridItem | null>(null);
 
   const fetchMemories = async () => {
-    const { data } = await supabase.from('memories').select('*').order('created_at', { ascending: false });
-    if (data) setDbMemories(data);
+    const { data, error } = await supabase
+      .from('memories')
+      .select('id, memory_id, title, content, image_url')
+      .order('memory_id', { ascending: true });
+
+    if (error) {
+      toast({ variant: 'destructive', title: 'Erro ao carregar memorias' });
+      return;
+    }
+
+    setMemories(data ?? []);
   };
 
-  useEffect(() => { fetchMemories(); }, []);
+  useEffect(() => {
+    fetchMemories();
+  }, []);
 
   const handleSave = async (data: Record<string, string>) => {
-    if (!user) return;
-    if (editItem) {
-      await supabase.from('memories').update({ title: data.title, content: data.content, image_url: data.image_url || null }).eq('id', editItem.id);
-      toast({ title: 'Memória atualizada!' });
-    } else {
-      const nextId = TOTAL_MEMORIES + dbMemories.length + 1;
-      await supabase.from('memories').insert({ title: data.title, content: data.content, image_url: data.image_url || null, memory_id: nextId, user_id: user.id });
-      toast({ title: 'Memória adicionada!' });
+    if (!user) {
+      return;
     }
+
+    if (editItem) {
+      const { error } = await supabase
+        .from('memories')
+        .update({
+          title: data.title,
+          content: data.content,
+          image_url: data.image_url || null,
+        })
+        .eq('id', editItem.id);
+
+      if (error) {
+        toast({ variant: 'destructive', title: 'Erro ao atualizar memoria' });
+        return;
+      }
+
+      toast({ title: 'Memoria atualizada!' });
+    } else {
+      const spaceId = await getCurrentSpaceId(user.id);
+      const nextMemoryId = memories.length > 0 ? Math.max(...memories.map((memory) => memory.memory_id)) + 1 : 1;
+
+      const { error } = await supabase.from('memories').insert({
+        title: data.title,
+        content: data.content,
+        image_url: data.image_url || null,
+        memory_id: nextMemoryId,
+        user_id: user.id,
+        space_id: spaceId,
+        sort_order: nextMemoryId,
+      });
+
+      if (error) {
+        toast({ variant: 'destructive', title: 'Erro ao adicionar memoria' });
+        return;
+      }
+
+      toast({ title: 'Memoria adicionada!' });
+    }
+
     setEditItem(null);
+    setDialogOpen(false);
     fetchMemories();
   };
 
   const handleDelete = async () => {
-    if (!deleteItem) return;
-    await supabase.from('memories').delete().eq('id', deleteItem.id);
-    toast({ title: 'Memória excluída!' });
+    if (!deleteItem) {
+      return;
+    }
+
+    const { error } = await supabase.from('memories').delete().eq('id', deleteItem.id);
+
+    if (error) {
+      toast({ variant: 'destructive', title: 'Erro ao excluir memoria' });
+      return;
+    }
+
+    toast({ title: 'Memoria excluida!' });
     setDeleteItem(null);
     fetchMemories();
   };
 
   return (
     <div className="min-h-screen bg-love-gradient pt-24 pb-16">
-      <Header totalPages={TOTAL_MEMORIES} />
+      <Header totalPages={memories.length || 130} />
       <main className="container mx-auto px-4">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-2xl">
-            <h1 className="text-3xl font-bold text-gradient">Todas as Memórias</h1>
-            <p className="mt-3 text-left text-gray-700">Explore todas as nossas memórias juntos.</p>
+            <h1 className="text-3xl font-bold text-gradient">Todas as Memorias</h1>
+            <p className="mt-3 text-left text-gray-700">Explore todas as nossas memorias juntos.</p>
           </div>
           <Button onClick={() => { setEditItem(null); setDialogOpen(true); }} className="bg-love-orange hover:bg-love-orange-dark">
-            <Plus className="h-4 w-4 mr-1" /> Nova Memória
+            <Plus className="h-4 w-4 mr-1" /> Nova Memoria
           </Button>
         </div>
 
-        {/* DB memories */}
-        {dbMemories.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-4 text-gradient">Memórias Adicionadas</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {dbMemories.map(mem => (
-                <Card key={mem.id} className="overflow-hidden border-love-orange/20 group relative">
-                  {mem.image_url && (
-                    <div className="w-full h-48 overflow-hidden">
-                      <img src={mem.image_url} alt={mem.title} className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-sm mb-1">{mem.title}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2">{mem.content}</p>
-                    <div className="flex gap-1 mt-2">
-                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => { setEditItem(mem); setDialogOpen(true); }}><Pencil className="h-3 w-3" /></Button>
-                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setDeleteItem(mem)}><Trash2 className="h-3 w-3 text-destructive" /></Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Original local memories grid */}
-        <MemoryGrid totalMemories={TOTAL_MEMORIES} />
+        <MemoryGrid
+          memories={memories}
+          onEdit={(memory) => { setEditItem(memory); setDialogOpen(true); }}
+          onDelete={(memory) => setDeleteItem(memory)}
+        />
       </main>
 
-      <CrudDialog open={dialogOpen} onClose={() => { setDialogOpen(false); setEditItem(null); }} onSave={handleSave} fields={fields}
+      <CrudDialog
+        open={dialogOpen}
+        onClose={() => { setDialogOpen(false); setEditItem(null); }}
+        onSave={handleSave}
+        fields={fields}
         initialData={editItem ? { title: editItem.title, content: editItem.content, image_url: editItem.image_url || '' } : undefined}
-        title={editItem ? 'Editar Memória' : 'Nova Memória'} />
+        title={editItem ? 'Editar Memoria' : 'Nova Memoria'}
+      />
       <DeleteConfirmDialog open={!!deleteItem} onClose={() => setDeleteItem(null)} onConfirm={handleDelete} />
     </div>
   );
